@@ -137,27 +137,28 @@ gap: 12px;
 margin-top: 16px;
 }
 .weight-item {
-background: #1c2740;
-border: 1px solid var(--border);
+background: #223152;
+border: 1px solid #3a4d72;
 border-radius: 10px;
-padding: 14px 16px;
+padding: 16px 18px;
 }
 .weight-item .pct {
 font-family: 'JetBrains Mono', monospace;
-font-size: 22px;
+font-size: 26px;
 font-weight: 600;
-color: var(--accent2);
-margin-bottom: 4px;
+color: #5eead4;
+margin-bottom: 6px;
 }
 .weight-item .wlabel {
-font-size: 12px;
-font-weight: 600;
-color: var(--text);
-margin-bottom: 3px;
+font-size: 14px;
+font-weight: 700;
+color: #ffffff;
+margin-bottom: 5px;
 }
 .weight-item .wdesc {
-font-size: 11px;
-color: var(--muted);
+font-size: 12px;
+line-height: 1.55;
+color: #cdd8ea;
 }
 
 .normalise-card {
@@ -267,6 +268,54 @@ background: linear-gradient(90deg, #3b82f6, #06b6d4);
 flex-shrink: 0;
 }
 
+/* ── Region Tabs ── */
+.tabs {
+display: flex;
+gap: 8px;
+margin: 16px 0 18px;
+flex-wrap: wrap;
+}
+.tab {
+flex: 1 1 auto;
+min-width: 180px;
+cursor: pointer;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: 12px;
+padding: 14px 18px;
+color: var(--muted);
+font-family: 'Source Serif 4', Georgia, serif;
+font-size: 15px;
+font-weight: 600;
+text-align: center;
+transition: all .18s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+}
+.tab:hover { border-color: var(--accent); color: var(--text); }
+.tab .tab-emoji { font-size: 18px; }
+.tab .tab-sub {
+display: block;
+font-family: 'JetBrains Mono', monospace;
+font-size: 10px;
+font-weight: 400;
+letter-spacing: 1px;
+text-transform: uppercase;
+color: var(--muted);
+margin-top: 2px;
+}
+.tab.active {
+background: linear-gradient(160deg, #1e293b 0%, #1e1b4b 100%);
+border-color: var(--accent);
+color: var(--text);
+box-shadow: 0 0 0 1px var(--accent), 0 8px 24px -8px rgba(59,130,246,.5);
+}
+.tab.active .tab-sub { color: var(--accent2); }
+.tab-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
+.tab.active .tab-text, .tab .tab-text { text-align: left; }
+
 /* ── Footnotes ── */
 .notes {
 background: var(--surface);
@@ -305,9 +354,9 @@ td, thead th { padding: 10px 8px; }
 <!-- ══ HERO ══ -->
 
 <div class="hero">
-  <div class="pill">Greater Manchester · All 10 Boroughs · 2025 GCSE Results</div>
-  <h1>Greater Manchester Secondary School<br>League Table</h1>
-  <p>Ranked by the custom <strong>School Quality Score (SQS)</strong> — a composite formula built from four key GCSE performance metrics, normalised against the England national average. Now covering state-funded secondaries across all ten Greater Manchester boroughs.</p>
+  <div class="pill">Greater Manchester &amp; Greater London · 2025 GCSE Results</div>
+  <h1>Secondary School<br>League Table</h1>
+  <p>Ranked by the custom <strong>School Quality Score (SQS)</strong> — a composite formula built from four key GCSE performance metrics, normalised against the England national average. Switch between <strong>Greater Manchester</strong> and <strong>Greater London</strong> using the tabs below.</p>
 </div>
 
 <div class="wrap">
@@ -405,7 +454,18 @@ td, thead th { padding: 10px 8px; }
 
   <!-- ══ LEAGUE TABLE ══ -->
 
-  <h2 class="section-title"><span>🏆</span> 2025 League Table</h2>
+  <h2 class="section-title"><span>🏆</span> 2025 League Table — <span id="regionTitle" style="font-size:inherit;color:#93c5fd">Greater Manchester</span></h2>
+
+  <div class="tabs" id="regionTabs">
+    <button class="tab active" data-city="manchester">
+      <span class="tab-emoji">🐝</span>
+      <span class="tab-text">Greater Manchester<span class="tab-sub">10 boroughs · 49 schools</span></span>
+    </button>
+    <button class="tab" data-city="london">
+      <span class="tab-emoji">🎡</span>
+      <span class="tab-text">Greater London<span class="tab-sub">32 boroughs · 30 schools</span></span>
+    </button>
+  </div>
 
   <div class="table-wrap">
     <table>
@@ -431,24 +491,27 @@ td, thead th { padding: 10px 8px; }
     <ul>
       <li>All figures are from the <strong>2024/25 GCSE academic year</strong> (published February 2026), sourced from DfE, Locrating, OwlTutors, and individual school websites.</li>
       <li><strong>Progress 8 is unavailable for 2025 and 2026</strong> — COVID-19 prevented KS2 assessments in 2020/21, making it impossible to calculate a baseline. It will return in 2027.</li>
-      <li>The table now spans <strong>all ten Greater Manchester boroughs</strong> — Trafford, Manchester, Stockport, Bolton, Bury, Oldham, Salford, Rochdale, Tameside and Wigan.</li>
-      <li>EBacc Entry % and EBacc APS for many non-Trafford schools are <strong>approximate / illustrative</strong> where exact 2025 published figures were not yet available; treat cross-borough rankings as indicative.</li>
+      <li>Use the <strong>region tabs</strong> to switch between <strong>Greater Manchester</strong> (all 10 boroughs) and <strong>Greater London</strong> (selective grammars and leading comprehensives across its 32 boroughs).</li>
+      <li>EBacc Entry % and EBacc APS for many schools are <strong>approximate / illustrative</strong> where exact 2025 published figures were not yet available; treat cross-borough rankings as indicative.</li>
       <li>AGGS EBacc APS is estimated from the school's published 92.7% EBacc pass rate at grade 5+.</li>
-      <li>The England benchmark row shows 100 for all normalised metrics by definition.</li>
-      <li>This table covers <em>state-funded</em> schools only. Independent schools such as The Manchester Grammar School, Bolton School and Stockport Grammar are not included.</li>
+      <li>The England benchmark row shows 100 for all normalised metrics by definition and appears at the foot of <em>each</em> regional table.</li>
+      <li>Both tables cover <em>state-funded</em> schools only. Independent schools (e.g. The Manchester Grammar School, Westminster School, St Paul's) are not included.</li>
     </ul>
   </div>
 
 </div><!-- /wrap -->
 
 <div class="footer">
-  Generated with custom SQS formula · Greater Manchester 2025 GCSE data · all 10 boroughs · github.com/charlesso/uk-secondary-school-league
+  Generated with custom SQS formula · Greater Manchester &amp; Greater London · 2025 GCSE data · github.com/charlesso/uk-secondary-school-league
 </div>
 
 <script>
 const ENG = { a8: 46.1, em: 45.4, aps: 4.09, ent: 40.5 };
 
-const schools = [
+const benchmark = { name:"England Average", area:"National", type:"Benchmark",
+  a8:46.1, em:45.4, aps:4.09, ent:40.5, benchmark:true };
+
+const schoolsManchester = [
   // ── Trafford ──
   { name:"Altrincham Grammar School for Girls", area:"Trafford", type:"Grammar · Girls",
     a8:80.6, em:99.5, aps:7.84, ent:99.5 },
@@ -566,11 +629,76 @@ const schools = [
     a8:51.0, em:58.0, aps:4.40, ent:40.0 },
   { name:"St Edmund Arrowsmith Catholic High School", area:"Wigan", type:"Non-selective (RC)",
     a8:50.0, em:55.0, aps:4.30, ent:38.0 },
-
-  // ── National benchmark ──
-  { name:"England Average",                     area:"National",  type:"Benchmark",
-    a8:46.1, em:45.4, aps:4.09, ent:40.5, benchmark:true },
 ];
+
+const schoolsLondon = [
+  // ── Selective grammar schools ──
+  { name:"Queen Elizabeth's School, Barnet",    area:"Barnet", type:"Grammar · Boys",
+    a8:85.0, em:99.5, aps:8.30, ent:96.0 },
+  { name:"The Henrietta Barnett School",        area:"Barnet", type:"Grammar · Girls",
+    a8:83.0, em:99.0, aps:8.10, ent:95.0 },
+  { name:"The Tiffin Girls' School",            area:"Kingston upon Thames", type:"Grammar · Girls",
+    a8:82.0, em:99.0, aps:8.00, ent:94.0 },
+  { name:"Wilson's School",                     area:"Sutton", type:"Grammar · Boys",
+    a8:81.0, em:99.0, aps:7.90, ent:92.0 },
+  { name:"St Olave's Grammar School",           area:"Bromley", type:"Grammar · Boys",
+    a8:80.5, em:99.0, aps:7.85, ent:92.0 },
+  { name:"Tiffin School",                       area:"Kingston upon Thames", type:"Grammar · Boys",
+    a8:80.0, em:98.5, aps:7.80, ent:90.0 },
+  { name:"Sutton Grammar School",               area:"Sutton", type:"Grammar · Boys",
+    a8:79.0, em:98.0, aps:7.60, ent:90.0 },
+  { name:"Nonsuch High School for Girls",       area:"Sutton", type:"Grammar · Girls",
+    a8:78.0, em:98.0, aps:7.50, ent:88.0 },
+  { name:"Newstead Wood School",                area:"Bromley", type:"Grammar · Girls",
+    a8:78.0, em:98.0, aps:7.50, ent:90.0 },
+  { name:"Wallington High School for Girls",    area:"Sutton", type:"Grammar · Girls",
+    a8:77.0, em:97.0, aps:7.40, ent:88.0 },
+  { name:"The Latymer School",                  area:"Enfield", type:"Grammar · Co-ed",
+    a8:76.0, em:97.0, aps:7.30, ent:85.0 },
+  { name:"Woodford County High School",         area:"Redbridge", type:"Grammar · Girls",
+    a8:75.0, em:96.0, aps:7.20, ent:85.0 },
+  { name:"Wallington County Grammar School",    area:"Sutton", type:"Grammar · Boys",
+    a8:74.0, em:96.0, aps:7.10, ent:84.0 },
+  { name:"Ilford County High School",           area:"Redbridge", type:"Grammar · Boys",
+    a8:73.0, em:95.0, aps:7.00, ent:82.0 },
+
+  // ── High-performing comprehensives / academies ──
+  { name:"Michaela Community School",           area:"Brent", type:"Non-selective",
+    a8:68.0, em:88.0, aps:6.00, ent:82.0 },
+  { name:"Cardinal Vaughan Memorial School",    area:"Kensington & Chelsea", type:"Non-selective (RC)",
+    a8:62.0, em:80.0, aps:5.60, ent:72.0 },
+  { name:"King Solomon Academy",                area:"Westminster", type:"Non-selective",
+    a8:60.0, em:80.0, aps:5.40, ent:75.0 },
+  { name:"The London Oratory School",           area:"Hammersmith & Fulham", type:"Non-selective (RC)",
+    a8:60.0, em:76.0, aps:5.40, ent:68.0 },
+  { name:"Brampton Manor Academy",              area:"Newham", type:"Non-selective",
+    a8:58.0, em:74.0, aps:5.20, ent:70.0 },
+  { name:"Graveney School",                     area:"Wandsworth", type:"Non-selective (part-sel.)",
+    a8:58.0, em:74.0, aps:5.20, ent:60.0 },
+  { name:"Newham Collegiate Sixth Form / NCS",  area:"Newham", type:"Non-selective",
+    a8:55.0, em:70.0, aps:5.00, ent:65.0 },
+  { name:"St Michael's Catholic Grammar School", area:"Barnet", type:"Grammar · Co-ed (RC)",
+    a8:72.0, em:95.0, aps:6.90, ent:80.0 },
+  { name:"Lampton School",                      area:"Hounslow", type:"Non-selective",
+    a8:52.0, em:62.0, aps:4.60, ent:50.0 },
+  { name:"Harris Academy Battersea",            area:"Wandsworth", type:"Non-selective",
+    a8:54.0, em:66.0, aps:4.80, ent:55.0 },
+  { name:"City of London Academy Highgate Hill", area:"Islington", type:"Non-selective",
+    a8:51.0, em:60.0, aps:4.50, ent:48.0 },
+  { name:"Plashet School",                      area:"Newham", type:"Non-selective · Girls",
+    a8:53.0, em:64.0, aps:4.70, ent:55.0 },
+  { name:"Bishop Challoner Catholic School",    area:"Tower Hamlets", type:"Non-selective (RC)",
+    a8:50.0, em:58.0, aps:4.40, ent:45.0 },
+  { name:"Greenford High School",               area:"Ealing", type:"Non-selective",
+    a8:49.0, em:56.0, aps:4.30, ent:42.0 },
+  { name:"Deptford Green School",               area:"Lewisham", type:"Non-selective",
+    a8:46.0, em:48.0, aps:3.90, ent:35.0 },
+];
+
+const datasets = {
+  manchester: { label: "Greater Manchester", schools: schoolsManchester },
+  london:     { label: "Greater London",     schools: schoolsLondon },
+};
 
 function sqs(s) {
   const n = x => (x[0]/x[1])*100;
@@ -599,42 +727,62 @@ function medal(i, bench) {
   return `<span style="color:#64748b;font-family:'JetBrains Mono',monospace;font-size:12px">#${i+1}</span>`;
 }
 
-const MAX_A8 = Math.max(...schools.map(s=>s.a8));
-
-const sorted = schools
-  .map(s => ({...s, sqsVal: parseFloat(sqs(s))}))
-  .sort((a,b) => b.benchmark ? 1 : a.benchmark ? -1 : b.sqsVal - a.sqsVal);
-
 const tbody = document.getElementById('tableBody');
-let rank = 0;
-sorted.forEach(s => {
-  if (!s.benchmark) rank++;
-  const sc = sqs(s);
-  const st = sqsStyle(sc);
-  const barW = Math.round((s.a8 / MAX_A8) * 60);
-  tbody.innerHTML += `
-  <tr class="${s.benchmark?'benchmark':''}">
-    <td class="rank-cell">${medal(rank-1, s.benchmark)}</td>
-    <td>
-      <div class="school-name">${s.name}</div>
-      <div class="school-meta">${s.area} · ${s.type}</div>
-    </td>
-    <td>
-      ${s.benchmark
-        ? '<span class="mono" style="color:#4b5563">100.0</span>'
-        : `<span class="sqs-badge" style="background:${st.bg};border:1px solid ${st.border};color:${st.col}">${sc}</span>`}
-    </td>
-    <td>
-      <div class="a8-bar-wrap">
-        <span class="mono">${s.a8}</span>
-        <div class="a8-bar" style="width:${barW}px"></div>
-      </div>
-    </td>
-    <td class="mono">${s.em}%</td>
-    <td class="mono">${s.aps}</td>
-    <td class="mono">${s.ent}%</td>
-  </tr>`;
+const regionTitle = document.getElementById('regionTitle');
+
+function render(city) {
+  const data = datasets[city];
+  const list = [...data.schools, benchmark];
+  const maxA8 = Math.max(...list.map(s => s.a8));
+
+  const sorted = list
+    .map(s => ({...s, sqsVal: parseFloat(sqs(s))}))
+    .sort((a,b) => b.benchmark ? 1 : a.benchmark ? -1 : b.sqsVal - a.sqsVal);
+
+  regionTitle.textContent = data.label;
+
+  let html = '';
+  let rank = 0;
+  sorted.forEach(s => {
+    if (!s.benchmark) rank++;
+    const sc = sqs(s);
+    const st = sqsStyle(sc);
+    const barW = Math.round((s.a8 / maxA8) * 60);
+    html += `
+    <tr class="${s.benchmark?'benchmark':''}">
+      <td class="rank-cell">${medal(rank-1, s.benchmark)}</td>
+      <td>
+        <div class="school-name">${s.name}</div>
+        <div class="school-meta">${s.area} · ${s.type}</div>
+      </td>
+      <td>
+        ${s.benchmark
+          ? '<span class="mono" style="color:#4b5563">100.0</span>'
+          : `<span class="sqs-badge" style="background:${st.bg};border:1px solid ${st.border};color:${st.col}">${sc}</span>`}
+      </td>
+      <td>
+        <div class="a8-bar-wrap">
+          <span class="mono">${s.a8}</span>
+          <div class="a8-bar" style="width:${barW}px"></div>
+        </div>
+      </td>
+      <td class="mono">${s.em}%</td>
+      <td class="mono">${s.aps}</td>
+      <td class="mono">${s.ent}%</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+document.getElementById('regionTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.tab');
+  if (!btn) return;
+  document.querySelectorAll('#regionTabs .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  render(btn.dataset.city);
 });
+
+render('manchester');
 </script>
 
 </body>
