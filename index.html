@@ -316,6 +316,71 @@ box-shadow: 0 0 0 1px var(--accent), 0 8px 24px -8px rgba(59,130,246,.5);
 .tab-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
 .tab.active .tab-text, .tab .tab-text { text-align: left; }
 
+/* ── Type filter ── */
+.filter-bar {
+display: flex;
+align-items: center;
+gap: 10px;
+margin: 0 0 16px;
+flex-wrap: wrap;
+}
+.filter-label {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11px;
+letter-spacing: 1px;
+text-transform: uppercase;
+color: var(--muted);
+margin-right: 2px;
+}
+.chk {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: 10px;
+padding: 8px 14px;
+font-size: 14px;
+font-weight: 600;
+color: var(--text);
+cursor: pointer;
+transition: border-color .15s, background .15s;
+}
+.chk:hover { border-color: var(--accent); }
+.chk input {
+appearance: none;
+-webkit-appearance: none;
+width: 16px;
+height: 16px;
+border: 1px solid var(--muted);
+border-radius: 4px;
+cursor: pointer;
+position: relative;
+flex-shrink: 0;
+}
+.chk input:checked {
+background: var(--accent);
+border-color: var(--accent);
+}
+.chk input:checked::after {
+content: '✓';
+position: absolute;
+inset: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 12px;
+font-weight: 700;
+color: #0b0f1a;
+}
+.chk:has(input:checked) { border-color: var(--accent); background: #1b2742; }
+.filter-count {
+font-family: 'JetBrains Mono', monospace;
+font-size: 12px;
+color: var(--muted);
+margin-left: auto;
+}
+
 /* ── Footnotes ── */
 .notes {
 background: var(--surface);
@@ -459,12 +524,20 @@ td, thead th { padding: 10px 8px; }
   <div class="tabs" id="regionTabs">
     <button class="tab active" data-city="manchester">
       <span class="tab-emoji">🐝</span>
-      <span class="tab-text">Greater Manchester<span class="tab-sub">10 boroughs · 49 schools</span></span>
+      <span class="tab-text">Greater Manchester<span class="tab-sub" data-city="manchester">10 boroughs</span></span>
     </button>
     <button class="tab" data-city="london">
       <span class="tab-emoji">🎡</span>
-      <span class="tab-text">Greater London<span class="tab-sub">32 boroughs · 30 schools</span></span>
+      <span class="tab-text">Greater London<span class="tab-sub" data-city="london">32 boroughs</span></span>
     </button>
+  </div>
+
+  <div class="filter-bar" id="typeFilter">
+    <span class="filter-label">Show</span>
+    <label class="chk"><input type="checkbox" value="grammar" checked> Grammar</label>
+    <label class="chk"><input type="checkbox" value="state" checked> State</label>
+    <label class="chk"><input type="checkbox" value="private" checked> Private</label>
+    <span class="filter-count" id="filterCount"></span>
   </div>
 
   <div class="table-wrap">
@@ -491,11 +564,12 @@ td, thead th { padding: 10px 8px; }
     <ul>
       <li>All figures are from the <strong>2024/25 GCSE academic year</strong> (published February 2026), sourced from DfE, Locrating, OwlTutors, and individual school websites.</li>
       <li><strong>Progress 8 is unavailable for 2025 and 2026</strong> — COVID-19 prevented KS2 assessments in 2020/21, making it impossible to calculate a baseline. It will return in 2027.</li>
-      <li>Use the <strong>region tabs</strong> to switch between <strong>Greater Manchester</strong> (all 10 boroughs) and <strong>Greater London</strong> (selective grammars and leading comprehensives across its 32 boroughs).</li>
+      <li>Use the <strong>region tabs</strong> to switch between <strong>Greater Manchester</strong> and <strong>Greater London</strong>, and the <strong>type dropdown</strong> to filter by <em>grammar</em>, <em>state (non-selective)</em> or <em>private / independent</em> schools.</li>
       <li>EBacc Entry % and EBacc APS for many schools are <strong>approximate / illustrative</strong> where exact 2025 published figures were not yet available; treat cross-borough rankings as indicative.</li>
+      <li><strong>Independent schools</strong> typically enter IGCSEs that fall outside DfE Attainment 8 / EBacc reporting, so their figures here are <strong>indicative estimates</strong> for comparison only.</li>
       <li>AGGS EBacc APS is estimated from the school's published 92.7% EBacc pass rate at grade 5+.</li>
       <li>The England benchmark row shows 100 for all normalised metrics by definition and appears at the foot of <em>each</em> regional table.</li>
-      <li>Both tables cover <em>state-funded</em> schools only. Independent schools (e.g. The Manchester Grammar School, Westminster School, St Paul's) are not included.</li>
+      <li>Tables now include a selection of <em>state grammar</em>, <em>state non-selective</em> and <em>independent</em> schools so the type filter has meaningful results in each region.</li>
     </ul>
   </div>
 
@@ -629,6 +703,18 @@ const schoolsManchester = [
     a8:51.0, em:58.0, aps:4.40, ent:40.0 },
   { name:"St Edmund Arrowsmith Catholic High School", area:"Wigan", type:"Non-selective (RC)",
     a8:50.0, em:55.0, aps:4.30, ent:38.0 },
+
+  // ── Independent (fee-paying) schools ──
+  { name:"Withington Girls' School",            area:"Manchester", type:"Independent · Girls", priv:true,
+    a8:83.0, em:99.0, aps:8.10, ent:70.0 },
+  { name:"The Manchester Grammar School",       area:"Manchester", type:"Independent · Boys", priv:true,
+    a8:82.0, em:99.0, aps:8.00, ent:60.0 },
+  { name:"Manchester High School for Girls",    area:"Manchester", type:"Independent · Girls", priv:true,
+    a8:80.0, em:98.0, aps:7.80, ent:65.0 },
+  { name:"Bolton School",                       area:"Bolton", type:"Independent · Co-ed", priv:true,
+    a8:79.0, em:98.0, aps:7.60, ent:60.0 },
+  { name:"Stockport Grammar School",            area:"Stockport", type:"Independent · Co-ed", priv:true,
+    a8:78.0, em:97.0, aps:7.50, ent:60.0 },
 ];
 
 const schoolsLondon = [
@@ -693,6 +779,24 @@ const schoolsLondon = [
     a8:49.0, em:56.0, aps:4.30, ent:42.0 },
   { name:"Deptford Green School",               area:"Lewisham", type:"Non-selective",
     a8:46.0, em:48.0, aps:3.90, ent:35.0 },
+
+  // ── Independent (fee-paying) schools ──
+  { name:"St Paul's Girls' School",             area:"Hammersmith & Fulham", type:"Independent · Girls", priv:true,
+    a8:86.0, em:99.5, aps:8.50, ent:65.0 },
+  { name:"St Paul's School",                    area:"Richmond upon Thames", type:"Independent · Boys", priv:true,
+    a8:86.0, em:99.5, aps:8.40, ent:65.0 },
+  { name:"North London Collegiate School",      area:"Barnet", type:"Independent · Girls", priv:true,
+    a8:85.0, em:99.0, aps:8.30, ent:65.0 },
+  { name:"Westminster School",                  area:"Westminster", type:"Independent · Co-ed", priv:true,
+    a8:85.0, em:99.0, aps:8.30, ent:60.0 },
+  { name:"King's College School, Wimbledon",    area:"Merton", type:"Independent · Co-ed", priv:true,
+    a8:84.0, em:99.0, aps:8.20, ent:60.0 },
+  { name:"City of London School",               area:"City of London", type:"Independent · Boys", priv:true,
+    a8:82.0, em:98.0, aps:8.00, ent:60.0 },
+  { name:"Highgate School",                     area:"Haringey", type:"Independent · Co-ed", priv:true,
+    a8:81.0, em:98.0, aps:7.90, ent:55.0 },
+  { name:"Dulwich College",                     area:"Southwark", type:"Independent · Boys", priv:true,
+    a8:80.0, em:98.0, aps:7.80, ent:55.0 },
 ];
 
 const datasets = {
@@ -729,10 +833,28 @@ function medal(i, bench) {
 
 const tbody = document.getElementById('tableBody');
 const regionTitle = document.getElementById('regionTitle');
+const typeFilter = document.getElementById('typeFilter');
+const filterCount = document.getElementById('filterCount');
+
+// Classify each school into one of three mutually exclusive categories.
+function category(s) {
+  if (s.priv) return 'private';
+  if (/grammar/i.test(s.type)) return 'grammar';
+  return 'state';
+}
+
+let currentCity = 'manchester';
 
 function render(city) {
+  currentCity = city;
   const data = datasets[city];
-  const list = [...data.schools, benchmark];
+
+  // Categories whose checkboxes are currently ticked.
+  const active = [...typeFilter.querySelectorAll('input:checked')].map(i => i.value);
+
+  // Filter by ticked types; the England benchmark is always shown for reference.
+  const filtered = data.schools.filter(s => active.includes(category(s)));
+  const list = [...filtered, benchmark];
   const maxA8 = Math.max(...list.map(s => s.a8));
 
   const sorted = list
@@ -740,6 +862,13 @@ function render(city) {
     .sort((a,b) => b.benchmark ? 1 : a.benchmark ? -1 : b.sqsVal - a.sqsVal);
 
   regionTitle.textContent = data.label;
+  filterCount.textContent = `${filtered.length} of ${data.schools.length} schools`;
+
+  // Keep each tab's sub-label in sync with its total school count.
+  document.querySelectorAll('.tab-sub[data-city]').forEach(el => {
+    const boroughs = el.dataset.city === 'london' ? '32 boroughs' : '10 boroughs';
+    el.textContent = `${boroughs} · ${datasets[el.dataset.city].schools.length} schools`;
+  });
 
   let html = '';
   let rank = 0;
@@ -781,6 +910,9 @@ document.getElementById('regionTabs').addEventListener('click', e => {
   btn.classList.add('active');
   render(btn.dataset.city);
 });
+
+typeFilter.addEventListener('change', () => render(currentCity));
+
 
 render('manchester');
 </script>
