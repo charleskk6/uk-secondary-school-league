@@ -9,28 +9,28 @@
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
 
 :root {
-–bg:        #0b0f1a;
-–surface:   #111827;
-–border:    #1e293b;
-–accent:    #3b82f6;
-–accent2:   #06b6d4;
-–gold:      #f59e0b;
-–silver:    #94a3b8;
-–bronze:    #c2844a;
-–text:      #e2e8f0;
-–muted:     #64748b;
-–green:     #22c55e;
-–yellow:    #eab308;
-–orange:    #f97316;
-–red:       #ef4444;
+--bg:        #0b0f1a;
+--surface:   #161f33;
+--border:    #2c3a52;
+--accent:    #60a5fa;
+--accent2:   #22d3ee;
+--gold:      #f59e0b;
+--silver:    #94a3b8;
+--bronze:    #c2844a;
+--text:      #f1f5f9;
+--muted:     #aab6c8;
+--green:     #22c55e;
+--yellow:    #eab308;
+--orange:    #f97316;
+--red:       #ef4444;
 }
 
-- { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-background: var(–bg);
-color: var(–text);
-font-family: ‘Source Serif 4’, Georgia, serif;
+background: var(--bg);
+color: var(--text);
+font-family: 'Source Serif 4', Georgia, serif;
 line-height: 1.6;
 padding: 0 0 80px;
 }
@@ -38,23 +38,23 @@ padding: 0 0 80px;
 /* ── Hero ── */
 .hero {
 background: linear-gradient(160deg, #0f172a 0%, #1e1b4b 60%, #0b0f1a 100%);
-border-bottom: 1px solid var(–border);
+border-bottom: 1px solid var(--border);
 padding: 56px 24px 44px;
 text-align: center;
 position: relative;
 overflow: hidden;
 }
 .hero::before {
-content: ‘’;
+content: '';
 position: absolute; inset: 0;
 background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(59,130,246,.18) 0%, transparent 70%);
 pointer-events: none;
 }
 .pill {
 display: inline-block;
-border: 1px solid var(–accent);
-color: var(–accent2);
-font-family: ‘JetBrains Mono’, monospace;
+border: 1px solid var(--accent);
+color: var(--accent2);
+font-family: 'JetBrains Mono', monospace;
 font-size: 11px;
 letter-spacing: 2px;
 text-transform: uppercase;
@@ -63,7 +63,7 @@ border-radius: 100px;
 margin-bottom: 20px;
 }
 .hero h1 {
-font-family: ‘Playfair Display’, serif;
+font-family: 'Playfair Display', serif;
 font-size: clamp(28px, 5vw, 52px);
 font-weight: 900;
 line-height: 1.1;
@@ -75,7 +75,7 @@ letter-spacing: -1px;
 }
 .hero p {
 font-size: 15px;
-color: var(–muted);
+color: var(--muted);
 max-width: 560px;
 margin: 0 auto;
 }
@@ -86,13 +86,13 @@ margin: 0 auto;
 
 /* ── Section titles ── */
 .section-title {
-font-family: ‘Playfair Display’, serif;
+font-family: 'Playfair Display', serif;
 font-size: 22px;
 font-weight: 700;
-color: var(–text);
+color: var(--text);
 margin: 48px 0 18px;
 padding-bottom: 10px;
-border-bottom: 1px solid var(–border);
+border-bottom: 1px solid var(--border);
 display: flex;
 align-items: center;
 gap: 10px;
@@ -101,14 +101,14 @@ gap: 10px;
 
 /* ── Formula box ── */
 .formula-card {
-background: var(–surface);
-border: 1px solid var(–border);
+background: var(--surface);
+border: 1px solid var(--border);
 border-radius: 14px;
 padding: 28px 28px 24px;
 margin-bottom: 14px;
 }
 .formula-card h3 {
-font-family: ‘Playfair Display’, serif;
+font-family: 'Playfair Display', serif;
 font-size: 17px;
 color: #93c5fd;
 margin-bottom: 14px;
@@ -118,7 +118,7 @@ background: #0d1424;
 border: 1px solid #1e3a5f;
 border-radius: 8px;
 padding: 16px 20px;
-font-family: ‘JetBrains Mono’, monospace;
+font-family: 'JetBrains Mono', monospace;
 font-size: 13px;
 color: #7dd3fc;
 line-height: 2;
@@ -137,43 +137,43 @@ gap: 12px;
 margin-top: 16px;
 }
 .weight-item {
-background: #0d1117;
-border: 1px solid var(–border);
+background: #1c2740;
+border: 1px solid var(--border);
 border-radius: 10px;
 padding: 14px 16px;
 }
 .weight-item .pct {
-font-family: ‘JetBrains Mono’, monospace;
+font-family: 'JetBrains Mono', monospace;
 font-size: 22px;
 font-weight: 600;
-color: var(–accent2);
+color: var(--accent2);
 margin-bottom: 4px;
 }
 .weight-item .wlabel {
 font-size: 12px;
 font-weight: 600;
-color: var(–text);
+color: var(--text);
 margin-bottom: 3px;
 }
 .weight-item .wdesc {
 font-size: 11px;
-color: var(–muted);
+color: var(--muted);
 }
 
 .normalise-card {
-background: var(–surface);
-border: 1px solid var(–border);
+background: var(--surface);
+border: 1px solid var(--border);
 border-radius: 14px;
 padding: 22px 28px;
 margin-top: 14px;
 }
 .normalise-card h3 {
-font-family: ‘Playfair Display’, serif;
+font-family: 'Playfair Display', serif;
 font-size: 16px;
 color: #93c5fd;
 margin-bottom: 10px;
 }
-.normalise-card p { font-size: 13px; color: var(–muted); margin-bottom: 10px; }
+.normalise-card p { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
 .interpret-grid {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -186,7 +186,7 @@ padding: 10px 14px;
 font-size: 12px;
 }
 .interpret-item .badge {
-font-family: ‘JetBrains Mono’, monospace;
+font-family: 'JetBrains Mono', monospace;
 font-size: 15px;
 font-weight: 600;
 display: block;
@@ -195,8 +195,8 @@ margin-bottom: 3px;
 
 /* ── League Table ── */
 .table-wrap {
-background: var(–surface);
-border: 1px solid var(–border);
+background: var(--surface);
+border: 1px solid var(--border);
 border-radius: 14px;
 overflow: hidden;
 }
@@ -209,12 +209,12 @@ thead th {
 background: #0d1117;
 padding: 12px 14px;
 text-align: center;
-font-family: ‘JetBrains Mono’, monospace;
+font-family: 'JetBrains Mono', monospace;
 font-size: 10px;
 letter-spacing: 1px;
 text-transform: uppercase;
-color: var(–muted);
-border-bottom: 1px solid var(–border);
+color: var(--muted);
+border-bottom: 1px solid var(--border);
 white-space: nowrap;
 }
 thead th:nth-child(2) { text-align: left; }
@@ -238,25 +238,25 @@ td:nth-child(2) { text-align: left; }
 .school-name {
 font-weight: 600;
 font-size: 14px;
-color: var(–text);
+color: var(--text);
 line-height: 1.3;
 }
 .school-meta {
 font-size: 11px;
-color: var(–muted);
+color: var(--muted);
 margin-top: 2px;
 }
 
 .sqs-badge {
 display: inline-block;
-font-family: ‘JetBrains Mono’, monospace;
+font-family: 'JetBrains Mono', monospace;
 font-size: 14px;
 font-weight: 700;
 padding: 4px 12px;
 border-radius: 8px;
 }
 
-.mono { font-family: ‘JetBrains Mono’, monospace; font-size: 13px; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
 
 /* bar under A8 */
 .a8-bar-wrap { display: flex; align-items: center; gap: 6px; justify-content: center; }
@@ -269,12 +269,12 @@ flex-shrink: 0;
 
 /* ── Footnotes ── */
 .notes {
-background: var(–surface);
-border: 1px solid var(–border);
+background: var(--surface);
+border: 1px solid var(--border);
 border-radius: 12px;
 padding: 20px 24px;
 font-size: 12px;
-color: var(–muted);
+color: var(--muted);
 line-height: 1.8;
 margin-top: 28px;
 }
@@ -287,7 +287,7 @@ text-align: center;
 margin-top: 48px;
 font-size: 12px;
 color: #374151;
-font-family: ‘JetBrains Mono’, monospace;
+font-family: 'JetBrains Mono', monospace;
 }
 
 @media (max-width: 640px) {
@@ -330,7 +330,6 @@ td, thead th { padding: 10px 8px; }
 <span class="label">England averages used:</span>  A8 <span class="op">=</span> <span class="num">46.1</span> <span class="op">|</span> Eng&Maths% <span class="op">=</span> <span class="num">45.4</span> <span class="op">|</span> EBaccAPS <span class="op">=</span> <span class="num">4.09</span> <span class="op">|</span> EBaccEntry% <span class="op">=</span> <span class="num">40.5</span>
 </div>
 
-```
 <div class="weight-grid">
   <div class="weight-item">
     <div class="pct">35%</div>
@@ -353,7 +352,6 @@ td, thead th { padding: 10px 8px; }
     <div class="wdesc">Proportion of pupils entered for the full EBacc — signals the school's academic ambition</div>
   </div>
 </div>
-```
 
   </div>
 
