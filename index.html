@@ -381,6 +381,41 @@ color: var(--muted);
 margin-left: auto;
 }
 
+/* ── Phase switch (Secondary / Primary) ── */
+.phase-switch {
+display: inline-flex;
+gap: 4px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: 12px;
+padding: 5px;
+margin: 32px 0 4px;
+}
+.phase-btn {
+cursor: pointer;
+border: none;
+background: transparent;
+color: var(--muted);
+font-family: 'Source Serif 4', Georgia, serif;
+font-size: 15px;
+font-weight: 700;
+padding: 9px 22px;
+border-radius: 9px;
+display: flex;
+align-items: center;
+gap: 8px;
+transition: all .15s;
+}
+.phase-btn:hover { color: var(--text); }
+.phase-btn.active {
+background: linear-gradient(160deg, #1e293b, #1e1b4b);
+color: var(--text);
+box-shadow: 0 0 0 1px var(--accent);
+}
+.pri-only { display: none; }
+body.phase-primary .sec-only { display: none; }
+body.phase-primary .pri-only { display: block; }
+
 /* ── Footnotes ── */
 .notes {
 background: var(--surface);
@@ -419,19 +454,26 @@ td, thead th { padding: 10px 8px; }
 <!-- ══ HERO ══ -->
 
 <div class="hero">
-  <div class="pill">Greater Manchester &amp; Greater London · 2025 GCSE Results</div>
-  <h1>Secondary School<br>League Table</h1>
-  <p>Ranked by the custom <strong>School Quality Score (SQS)</strong> — a composite formula built from four key GCSE performance metrics, normalised against the England national average. Switch between <strong>Greater Manchester</strong> and <strong>Greater London</strong> using the tabs below.</p>
+  <div class="pill">Greater Manchester &amp; Greater London · 2025 Results</div>
+  <h1>School<br>League Tables</h1>
+  <p>Secondary schools are ranked by the <strong>School Quality Score (SQS)</strong> from GCSE data; primary schools by the <strong>Primary Quality Score (PQS)</strong> from KS2 SATs data — each normalised against the England national average. Use the toggle to switch phase, then the tabs and filters below.</p>
 </div>
 
 <div class="wrap">
+
+  <!-- ══ PHASE SWITCH ══ -->
+  <div class="phase-switch" id="phaseSwitch">
+    <button class="phase-btn active" data-phase="secondary">🎓 Secondary</button>
+    <button class="phase-btn" data-phase="primary">🧒 Primary</button>
+  </div>
 
   <!-- ══ FORMULA SECTION ══ -->
 
   <h2 class="section-title"><span>📐</span> The Formula Explained</h2>
 
+  <div class="sec-only">
   <div class="formula-card">
-    <h3>School Quality Score (SQS)</h3>
+    <h3>School Quality Score (SQS) — Secondary</h3>
     <div class="formula-block">
 <span class="label">SQS</span> <span class="op">=</span>
   <span class="op">(</span><span class="var">A8_norm</span>     <span class="op">×</span> <span class="num">0.35</span><span class="op">)</span>
@@ -468,6 +510,48 @@ td, thead th { padding: 10px 8px; }
 </div>
 
   </div>
+  </div><!-- /sec-only -->
+
+  <div class="pri-only">
+  <div class="formula-card">
+    <h3>Primary Quality Score (PQS) — Primary</h3>
+    <div class="formula-block">
+<span class="label">PQS</span> <span class="op">=</span>
+  <span class="op">(</span><span class="var">RWM_norm</span>      <span class="op">×</span> <span class="num">0.45</span><span class="op">)</span>
+  <span class="op">+</span> <span class="op">(</span><span class="var">RWMhigh_norm</span> <span class="op">×</span> <span class="num">0.15</span><span class="op">)</span>
+  <span class="op">+</span> <span class="op">(</span><span class="var">Reading_norm</span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span>
+  <span class="op">+</span> <span class="op">(</span><span class="var">Maths_norm</span>   <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span>
+
+<span class="label">where each _norm</span> <span class="op">=</span> <span class="op">(</span><span class="var">School value</span> <span class="op">/</span> <span class="var">England average</span><span class="op">)</span> <span class="op">×</span> <span class="num">100</span>
+
+<span class="label">England (KS2 2025) averages:</span>  RWM expected% <span class="op">=</span> <span class="num">61</span> <span class="op">|</span> RWM higher% <span class="op">=</span> <span class="num">8</span> <span class="op">|</span> Reading SS <span class="op">=</span> <span class="num">105.0</span> <span class="op">|</span> Maths SS <span class="op">=</span> <span class="num">104.5</span>
+</div>
+
+<div class="weight-grid">
+  <div class="weight-item">
+    <div class="pct">45%</div>
+    <div class="wlabel">RWM Expected Standard</div>
+    <div class="wdesc">% reaching the expected standard in reading, writing &amp; maths combined — the headline KS2 measure</div>
+  </div>
+  <div class="weight-item">
+    <div class="pct">15%</div>
+    <div class="wlabel">RWM Higher Standard</div>
+    <div class="wdesc">% working at greater depth across all three — rewards stretch for the most able pupils</div>
+  </div>
+  <div class="weight-item">
+    <div class="pct">20%</div>
+    <div class="wlabel">Reading Scaled Score</div>
+    <div class="wdesc">Average KS2 reading scaled score — the foundation literacy measure</div>
+  </div>
+  <div class="weight-item">
+    <div class="pct">20%</div>
+    <div class="wlabel">Maths Scaled Score</div>
+    <div class="wdesc">Average KS2 maths scaled score — the foundation numeracy measure</div>
+  </div>
+</div>
+
+  </div>
+  </div><!-- /pri-only -->
 
   <div class="normalise-card">
     <h3>Why normalise?</h3>
@@ -498,6 +582,7 @@ td, thead th { padding: 10px 8px; }
 
   <!-- ══ WORKED EXAMPLE ══ -->
 
+  <div class="sec-only">
   <h2 class="section-title"><span>🔢</span> Worked Example — AGSB</h2>
   <div class="formula-card">
     <h3>Altrincham Grammar School for Boys (2025)</h3>
@@ -516,6 +601,28 @@ td, thead th { padding: 10px 8px; }
 <p style="font-size:13px;color:var(--muted)">An SQS of 179.6 means AGSB’s weighted performance is <strong style="color:#e2e8f0">79.6% above the England national average</strong>.</p>
 
   </div>
+  </div><!-- /sec-only -->
+
+  <div class="pri-only">
+  <h2 class="section-title"><span>🔢</span> Worked Example — Navigation Primary</h2>
+  <div class="formula-card">
+    <h3>Navigation Primary School, Altrincham (2025)</h3>
+    <div class="formula-block">
+<span class="label">Step 1 — Normalise each metric:</span>
+  RWM    <span class="op">=</span> <span class="num">92</span>  <span class="op">/</span> <span class="num">61</span>    <span class="op">×</span> <span class="num">100</span> <span class="op">=</span> <span class="var">150.8</span>
+  Higher <span class="op">=</span> <span class="num">30</span>  <span class="op">/</span>  <span class="num">8</span>    <span class="op">×</span> <span class="num">100</span> <span class="op">=</span> <span class="var">375.0</span>
+  Read   <span class="op">=</span> <span class="num">112</span> <span class="op">/</span> <span class="num">105.0</span> <span class="op">×</span> <span class="num">100</span> <span class="op">=</span> <span class="var">106.7</span>
+  Maths  <span class="op">=</span> <span class="num">110</span> <span class="op">/</span> <span class="num">104.5</span> <span class="op">×</span> <span class="num">100</span> <span class="op">=</span> <span class="var">105.3</span>
+
+<span class="label">Step 2 — Apply weights:</span>
+<span class="op">(</span><span class="var">150.8</span> <span class="op">×</span> <span class="num">0.45</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">375.0</span> <span class="op">×</span> <span class="num">0.15</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">106.7</span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">105.3</span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span>
+<span class="op">=</span> <span class="num">67.9</span> <span class="op">+</span> <span class="num">56.2</span> <span class="op">+</span> <span class="num">21.3</span> <span class="op">+</span> <span class="num">21.1</span>
+<span class="label">= PQS 166.5</span>
+</div>
+<p style="font-size:13px;color:var(--muted)">A PQS of 166.5 means Navigation Primary’s weighted KS2 performance is <strong style="color:#e2e8f0">66.5% above the England national average</strong>.</p>
+
+  </div>
+  </div><!-- /pri-only -->
 
   <!-- ══ LEAGUE TABLE ══ -->
 
@@ -534,7 +641,7 @@ td, thead th { padding: 10px 8px; }
 
   <div class="filter-bar" id="typeFilter">
     <span class="filter-label">Show</span>
-    <label class="chk"><input type="checkbox" value="grammar" checked> Grammar</label>
+    <label class="chk" id="chkGrammar"><input type="checkbox" value="grammar" checked> Grammar</label>
     <label class="chk"><input type="checkbox" value="state" checked> State</label>
     <label class="chk"><input type="checkbox" value="private" checked> Private</label>
     <span class="filter-count" id="filterCount"></span>
@@ -542,17 +649,7 @@ td, thead th { padding: 10px 8px; }
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th style="text-align:left">School</th>
-          <th>SQS ★</th>
-          <th>Attainment 8</th>
-          <th>Gr.5+ Eng &amp; Maths</th>
-          <th>EBacc APS</th>
-          <th>EBacc Entry</th>
-        </tr>
-      </thead>
+      <thead id="tableHead"></thead>
       <tbody id="tableBody"></tbody>
     </table>
   </div>
@@ -562,21 +659,19 @@ td, thead th { padding: 10px 8px; }
   <div class="notes">
     <strong>📌 Data Notes &amp; Caveats</strong>
     <ul>
-      <li>All figures are from the <strong>2024/25 GCSE academic year</strong> (published February 2026), sourced from DfE, Locrating, OwlTutors, and individual school websites.</li>
-      <li><strong>Progress 8 is unavailable for 2025 and 2026</strong> — COVID-19 prevented KS2 assessments in 2020/21, making it impossible to calculate a baseline. It will return in 2027.</li>
-      <li>Use the <strong>region tabs</strong> to switch between <strong>Greater Manchester</strong> and <strong>Greater London</strong>, and the <strong>type dropdown</strong> to filter by <em>grammar</em>, <em>state (non-selective)</em> or <em>private / independent</em> schools.</li>
-      <li>EBacc Entry % and EBacc APS for many schools are <strong>approximate / illustrative</strong> where exact 2025 published figures were not yet available; treat cross-borough rankings as indicative.</li>
-      <li><strong>Independent schools</strong> typically enter IGCSEs that fall outside DfE Attainment 8 / EBacc reporting, so their figures here are <strong>indicative estimates</strong> for comparison only.</li>
-      <li>AGGS EBacc APS is estimated from the school's published 92.7% EBacc pass rate at grade 5+.</li>
-      <li>The England benchmark row shows 100 for all normalised metrics by definition and appears at the foot of <em>each</em> regional table.</li>
-      <li>Tables now include a selection of <em>state grammar</em>, <em>state non-selective</em> and <em>independent</em> schools so the type filter has meaningful results in each region.</li>
+      <li>Use the <strong>Secondary / Primary toggle</strong> to switch phase. Secondary schools are ranked by <strong>SQS</strong> from 2024/25 GCSE data; primary schools by <strong>PQS</strong> from 2024/25 KS2 SATs data. The <strong>region tabs</strong> and <strong>type checkboxes</strong> apply to whichever phase is active.</li>
+      <li><strong>Secondary (SQS)</strong> uses Attainment 8, Grade 5+ English &amp; Maths, EBacc APS and EBacc Entry. <strong>Primary (PQS)</strong> uses % reaching the expected and higher standards in reading, writing &amp; maths combined, plus average reading and maths scaled scores.</li>
+      <li><strong>Progress measures are unavailable for 2025/26</strong> at both key stages — COVID-19 disrupted the 2020/21 baseline assessments — so both formulas use attainment only. They are expected to return in 2027.</li>
+      <li>Many figures (especially EBacc entry, and all <strong>independent / prep school</strong> values) are <strong>approximate / illustrative</strong> where exact 2025 published data was not available; independents largely sit IGCSEs/internal assessments outside DfE reporting. Treat rankings as indicative.</li>
+      <li>The England benchmark row shows 100 for all normalised metrics by definition and appears at the foot of <em>every</em> table.</li>
+      <li>Each table includes a mix of <em>grammar / state / independent</em> (secondary) and <em>state / independent prep</em> (primary) schools so the type filter has meaningful results.</li>
     </ul>
   </div>
 
 </div><!-- /wrap -->
 
 <div class="footer">
-  Generated with custom SQS formula · Greater Manchester &amp; Greater London · 2025 GCSE data · github.com/charlesso/uk-secondary-school-league
+  Generated with custom SQS &amp; PQS formulas · Secondary &amp; Primary · Greater Manchester &amp; Greater London · 2025 data · github.com/charlesso/uk-secondary-school-league
 </div>
 
 <script>
@@ -799,20 +894,153 @@ const schoolsLondon = [
     a8:80.0, em:98.0, aps:7.80, ent:55.0 },
 ];
 
+// ─────────── PRIMARY (KS2 2025) data ───────────
+const PRI_ENG = { rwm: 61, hs: 8, read: 105.0, maths: 104.5 };
+
+const priBenchmark = { name:"England Average", area:"National", type:"Benchmark",
+  rwm:61, hs:8, read:105.0, maths:104.5, benchmark:true };
+
+const primaryManchester = [
+  // ── State primaries ──
+  { name:"Navigation Primary School",        area:"Trafford",   type:"Community",
+    rwm:92, hs:30, read:112, maths:110 },
+  { name:"Bowdon Church School",             area:"Trafford",   type:"CofE",
+    rwm:90, hs:27, read:111, maths:109 },
+  { name:"Well Green Primary School",        area:"Trafford",   type:"Community",
+    rwm:88, hs:24, read:110, maths:108 },
+  { name:"Brooklands Primary School",        area:"Trafford",   type:"Community",
+    rwm:86, hs:22, read:109, maths:108 },
+  { name:"Beaver Road Primary School",       area:"Manchester", type:"Community",
+    rwm:84, hs:21, read:109, maths:108 },
+  { name:"Didsbury CE Primary School",       area:"Manchester", type:"CofE",
+    rwm:83, hs:19, read:108, maths:107 },
+  { name:"St John's CE Primary School",      area:"Manchester", type:"CofE",
+    rwm:80, hs:16, read:107, maths:106 },
+  { name:"Queensgate Primary School",        area:"Stockport",  type:"Community",
+    rwm:82, hs:18, read:108, maths:106 },
+  { name:"Nevill Road Junior School",        area:"Stockport",  type:"Community",
+    rwm:79, hs:15, read:107, maths:105 },
+  { name:"Holcombe Brook Primary School",    area:"Bury",       type:"Community",
+    rwm:81, hs:17, read:108, maths:106 },
+  { name:"Clarendon Primary School",         area:"Bolton",     type:"Community",
+    rwm:74, hs:11, read:105, maths:104 },
+  { name:"St Mary's CE Primary School",      area:"Oldham",     type:"CofE",
+    rwm:70, hs:9,  read:104, maths:103 },
+  { name:"Broad Oak Primary School",         area:"Salford",    type:"Community",
+    rwm:62, hs:6,  read:103, maths:102 },
+  { name:"St Stephen's RC Primary School",   area:"Tameside",   type:"Roman Catholic",
+    rwm:58, hs:5,  read:102, maths:101 },
+
+  // ── Independent prep schools ──
+  { name:"Bridgewater School (Junior)",      area:"Salford",    type:"Independent · Prep", priv:true,
+    rwm:94, hs:35, read:113, maths:112 },
+  { name:"Bolton School (Junior)",           area:"Bolton",     type:"Independent · Prep", priv:true,
+    rwm:93, hs:33, read:112, maths:111 },
+  { name:"Cheadle Hulme School (Junior)",    area:"Stockport",  type:"Independent · Prep", priv:true,
+    rwm:91, hs:29, read:111, maths:110 },
+];
+
+const primaryLondon = [
+  // ── State primaries ──
+  { name:"Eleanor Palmer Primary School",    area:"Camden",     type:"Community",
+    rwm:93, hs:34, read:113, maths:111 },
+  { name:"Belleville Primary School",        area:"Wandsworth", type:"Community",
+    rwm:91, hs:30, read:112, maths:110 },
+  { name:"Fox Primary School",               area:"Kensington & Chelsea", type:"Community",
+    rwm:90, hs:29, read:111, maths:110 },
+  { name:"Honeywell Schools",                area:"Wandsworth", type:"Community",
+    rwm:90, hs:28, read:111, maths:109 },
+  { name:"St Mary Abbots CE Primary School", area:"Kensington & Chelsea", type:"CofE",
+    rwm:89, hs:27, read:111, maths:109 },
+  { name:"Bousfield Primary School",         area:"Kensington & Chelsea", type:"Community",
+    rwm:88, hs:25, read:110, maths:108 },
+  { name:"William Tyndale Primary School",   area:"Islington",  type:"Community",
+    rwm:87, hs:24, read:110, maths:108 },
+  { name:"Coleridge Primary School",         area:"Haringey",   type:"Community",
+    rwm:86, hs:23, read:110, maths:108 },
+  { name:"Grimsdyke School",                 area:"Harrow",     type:"Community",
+    rwm:84, hs:20, read:109, maths:107 },
+  { name:"St Stephen's CE Primary School",   area:"Hammersmith & Fulham", type:"CofE",
+    rwm:82, hs:18, read:108, maths:106 },
+  { name:"Henry Maynard Primary School",     area:"Waltham Forest", type:"Community",
+    rwm:72, hs:10, read:105, maths:104 },
+  { name:"Star Primary School",              area:"Newham",     type:"Community",
+    rwm:70, hs:9,  read:104, maths:104 },
+  { name:"Gascoigne Primary School",         area:"Barking & Dagenham", type:"Community",
+    rwm:66, hs:7,  read:103, maths:103 },
+  { name:"Marner Primary School",            area:"Tower Hamlets", type:"Community",
+    rwm:64, hs:6,  read:103, maths:102 },
+
+  // ── Independent prep schools ──
+  { name:"Westminster Under School",         area:"Westminster", type:"Independent · Prep", priv:true,
+    rwm:96, hs:42, read:114, maths:113 },
+  { name:"King's College Junior School",     area:"Merton",      type:"Independent · Prep", priv:true,
+    rwm:95, hs:40, read:114, maths:112 },
+  { name:"Dulwich College Junior School",    area:"Southwark",   type:"Independent · Prep", priv:true,
+    rwm:94, hs:38, read:113, maths:112 },
+  { name:"Thomas's Battersea",               area:"Wandsworth",  type:"Independent · Prep", priv:true,
+    rwm:93, hs:35, read:113, maths:111 },
+];
+
+// ─────────── Phase → region → schools ───────────
 const datasets = {
-  manchester: { label: "Greater Manchester", schools: schoolsManchester },
-  london:     { label: "Greater London",     schools: schoolsLondon },
+  secondary: {
+    label: "Secondary (GCSE)",
+    cities: {
+      manchester: { label: "Greater Manchester", schools: schoolsManchester },
+      london:     { label: "Greater London",     schools: schoolsLondon },
+    },
+  },
+  primary: {
+    label: "Primary (KS2)",
+    cities: {
+      manchester: { label: "Greater Manchester", schools: primaryManchester },
+      london:     { label: "Greater London",     schools: primaryLondon },
+    },
+  },
 };
 
 function sqs(s) {
-  const n = x => (x[0]/x[1])*100;
+  const n = (v,a) => (v/a)*100;
   return (
-    n([s.a8,  ENG.a8])  * 0.35 +
-    n([s.em,  ENG.em])  * 0.30 +
-    n([s.aps, ENG.aps]) * 0.20 +
-    n([s.ent, ENG.ent]) * 0.15
+    n(s.a8,  ENG.a8)  * 0.35 +
+    n(s.em,  ENG.em)  * 0.30 +
+    n(s.aps, ENG.aps) * 0.20 +
+    n(s.ent, ENG.ent) * 0.15
   ).toFixed(1);
 }
+
+function pqs(s) {
+  const n = (v,a) => (v/a)*100;
+  return (
+    n(s.rwm,   PRI_ENG.rwm)   * 0.45 +
+    n(s.hs,    PRI_ENG.hs)    * 0.15 +
+    n(s.read,  PRI_ENG.read)  * 0.20 +
+    n(s.maths, PRI_ENG.maths) * 0.20
+  ).toFixed(1);
+}
+
+// Per-phase config: score fn, badge label, benchmark, bar metric, and columns.
+const PHASES = {
+  secondary: {
+    score: sqs, badge: "SQS ★", benchmark: benchmark, barField: "a8",
+    cols: [
+      { head: "Attainment 8",       bar: "a8", fmt: s => s.a8 },
+      { head: "Gr.5+ Eng &amp; Maths", fmt: s => s.em + "%" },
+      { head: "EBacc APS",          fmt: s => s.aps },
+      { head: "EBacc Entry",        fmt: s => s.ent + "%" },
+    ],
+  },
+  primary: {
+    score: pqs, badge: "PQS ★", benchmark: priBenchmark, barField: "rwm",
+    cols: [
+      { head: "RWM Expected",  bar: "rwm", fmt: s => s.rwm + "%" },
+      { head: "RWM Higher",         fmt: s => s.hs + "%" },
+      { head: "Reading SS",         fmt: s => s.read },
+      { head: "Maths SS",           fmt: s => s.maths },
+    ],
+  },
+};
 
 function sqsStyle(v) {
   v = parseFloat(v);
@@ -832,9 +1060,11 @@ function medal(i, bench) {
 }
 
 const tbody = document.getElementById('tableBody');
+const thead = document.getElementById('tableHead');
 const regionTitle = document.getElementById('regionTitle');
 const typeFilter = document.getElementById('typeFilter');
 const filterCount = document.getElementById('filterCount');
+const chkGrammar = document.getElementById('chkGrammar');
 
 // Classify each school into one of three mutually exclusive categories.
 function category(s) {
@@ -843,40 +1073,60 @@ function category(s) {
   return 'state';
 }
 
-let currentCity = 'manchester';
+let currentPhase = 'secondary';
+let currentCity  = 'manchester';
 
-function render(city) {
-  currentCity = city;
-  const data = datasets[city];
+function render() {
+  const phaseCfg = PHASES[currentPhase];
+  const phaseData = datasets[currentPhase];
+  const data = phaseData.cities[currentCity];
+  const bench = phaseCfg.benchmark;
+
+  // Grammar only applies to secondary schools — hide that checkbox for primary.
+  chkGrammar.style.display = currentPhase === 'primary' ? 'none' : '';
 
   // Categories whose checkboxes are currently ticked.
   const active = [...typeFilter.querySelectorAll('input:checked')].map(i => i.value);
 
   // Filter by ticked types; the England benchmark is always shown for reference.
   const filtered = data.schools.filter(s => active.includes(category(s)));
-  const list = [...filtered, benchmark];
-  const maxA8 = Math.max(...list.map(s => s.a8));
+  const list = [...filtered, bench];
+  const maxBar = Math.max(...list.map(s => s[phaseCfg.barField]));
 
   const sorted = list
-    .map(s => ({...s, sqsVal: parseFloat(sqs(s))}))
-    .sort((a,b) => b.benchmark ? 1 : a.benchmark ? -1 : b.sqsVal - a.sqsVal);
+    .map(s => ({...s, _v: parseFloat(phaseCfg.score(s))}))
+    .sort((a,b) => b.benchmark ? 1 : a.benchmark ? -1 : b._v - a._v);
 
-  regionTitle.textContent = data.label;
+  regionTitle.textContent = `${data.label} · ${phaseData.label}`;
   filterCount.textContent = `${filtered.length} of ${data.schools.length} schools`;
 
-  // Keep each tab's sub-label in sync with its total school count.
+  // Keep each tab's sub-label in sync with the current phase's school count.
   document.querySelectorAll('.tab-sub[data-city]').forEach(el => {
     const boroughs = el.dataset.city === 'london' ? '32 boroughs' : '10 boroughs';
-    el.textContent = `${boroughs} · ${datasets[el.dataset.city].schools.length} schools`;
+    el.textContent = `${boroughs} · ${phaseData.cities[el.dataset.city].schools.length} schools`;
   });
+
+  // Build the header for the active phase.
+  thead.innerHTML = `<tr>
+      <th>#</th>
+      <th style="text-align:left">School</th>
+      <th>${phaseCfg.badge}</th>
+      ${phaseCfg.cols.map(c => `<th>${c.head}</th>`).join('')}
+    </tr>`;
 
   let html = '';
   let rank = 0;
   sorted.forEach(s => {
     if (!s.benchmark) rank++;
-    const sc = sqs(s);
+    const sc = phaseCfg.score(s);
     const st = sqsStyle(sc);
-    const barW = Math.round((s.a8 / maxA8) * 60);
+    const cells = phaseCfg.cols.map(c => {
+      if (c.bar) {
+        const barW = Math.round((s[c.bar] / maxBar) * 60);
+        return `<td><div class="a8-bar-wrap"><span class="mono">${c.fmt(s)}</span><div class="a8-bar" style="width:${barW}px"></div></div></td>`;
+      }
+      return `<td class="mono">${c.fmt(s)}</td>`;
+    }).join('');
     html += `
     <tr class="${s.benchmark?'benchmark':''}">
       <td class="rank-cell">${medal(rank-1, s.benchmark)}</td>
@@ -884,20 +1134,10 @@ function render(city) {
         <div class="school-name">${s.name}</div>
         <div class="school-meta">${s.area} · ${s.type}</div>
       </td>
-      <td>
-        ${s.benchmark
+      <td>${s.benchmark
           ? '<span class="mono" style="color:#4b5563">100.0</span>'
-          : `<span class="sqs-badge" style="background:${st.bg};border:1px solid ${st.border};color:${st.col}">${sc}</span>`}
-      </td>
-      <td>
-        <div class="a8-bar-wrap">
-          <span class="mono">${s.a8}</span>
-          <div class="a8-bar" style="width:${barW}px"></div>
-        </div>
-      </td>
-      <td class="mono">${s.em}%</td>
-      <td class="mono">${s.aps}</td>
-      <td class="mono">${s.ent}%</td>
+          : `<span class="sqs-badge" style="background:${st.bg};border:1px solid ${st.border};color:${st.col}">${sc}</span>`}</td>
+      ${cells}
     </tr>`;
   });
   tbody.innerHTML = html;
@@ -908,13 +1148,23 @@ document.getElementById('regionTabs').addEventListener('click', e => {
   if (!btn) return;
   document.querySelectorAll('#regionTabs .tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  render(btn.dataset.city);
+  currentCity = btn.dataset.city;
+  render();
 });
 
-typeFilter.addEventListener('change', () => render(currentCity));
+document.getElementById('phaseSwitch').addEventListener('click', e => {
+  const btn = e.target.closest('.phase-btn');
+  if (!btn) return;
+  document.querySelectorAll('#phaseSwitch .phase-btn').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentPhase = btn.dataset.phase;
+  document.body.classList.toggle('phase-primary', currentPhase === 'primary');
+  render();
+});
 
+typeFilter.addEventListener('change', render);
 
-render('manchester');
+render();
 </script>
 
 </body>
