@@ -460,7 +460,7 @@ td, thead th { padding: 10px 8px; }
 <div class="hero">
   <div class="pill">Greater Manchester &amp; Greater London · 2025 Results</div>
   <h1>School<br>League Tables</h1>
-  <p>Secondary schools are ranked by the <strong>School Quality Score (SQS)</strong> from GCSE data; primary schools by the <strong>Primary Quality Score (PQS)</strong> from KS2 SATs data — each normalised against the England national average. Use the toggle to switch phase, then the tabs and filters below.</p>
+  <p>Secondary schools are ranked by the <strong>School Quality Score (SQS)</strong> from GCSE data, normalised against the England average. Primary schools are ranked by a choice of three <strong>percentile indices</strong> from KS2 SATs data — an <strong>Academic Performance Index</strong>, a <strong>Grammar School Readiness</strong> index, or <strong>11+ Readiness</strong> within each local authority. Use the toggle to switch phase, then the tabs and filters below.</p>
 </div>
 
 <div class="wrap">
@@ -518,47 +518,49 @@ td, thead th { padding: 10px 8px; }
 
   <div class="pri-only">
   <div class="formula-card">
-    <h3>Primary Quality Score (PQS) — Primary</h3>
+    <h3>Primary Ranking Indices — choose one above the table</h3>
     <div class="formula-block">
-<span class="label">PQS</span> <span class="op">=</span>
-  <span class="op">(</span><span class="var">RWM_norm</span>      <span class="op">×</span> <span class="num">0.45</span><span class="op">)</span>
-  <span class="op">+</span> <span class="op">(</span><span class="var">RWMhigh_norm</span> <span class="op">×</span> <span class="num">0.15</span><span class="op">)</span>
-  <span class="op">+</span> <span class="op">(</span><span class="var">Reading_norm</span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span>
-  <span class="op">+</span> <span class="op">(</span><span class="var">Maths_norm</span>   <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span>
+<span class="label">Academic Performance Index — default</span>
+  <span class="var">API</span> <span class="op">=</span> <span class="op">(</span><span class="var">Expected%ile</span> <span class="op">×</span> <span class="num">0.40</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Higher%ile</span> <span class="op">×</span> <span class="num">0.40</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Reading%ile</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Maths%ile</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span>
 
-<span class="label">where each _norm</span> <span class="op">=</span> <span class="op">(</span><span class="var">School value</span> <span class="op">/</span> <span class="var">England average</span><span class="op">)</span> <span class="op">×</span> <span class="num">100</span>
+<span class="label">Grammar School Readiness</span>
+  <span class="var">GRI</span> <span class="op">=</span> <span class="op">(</span><span class="var">Higher%ile</span> <span class="op">×</span> <span class="num">0.50</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Reading%ile</span> <span class="op">×</span> <span class="num">0.25</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Maths%ile</span> <span class="op">×</span> <span class="num">0.25</span><span class="op">)</span>
 
-<span class="label">England (KS2 2025) averages:</span>  RWM expected% <span class="op">=</span> <span class="num">61</span> <span class="op">|</span> RWM higher% <span class="op">=</span> <span class="num">8</span> <span class="op">|</span> Reading SS <span class="op">=</span> <span class="num">105.0</span> <span class="op">|</span> Maths SS <span class="op">=</span> <span class="num">104.5</span>
+<span class="label">11+ Readiness — within the school's own Local Authority</span>
+  <span class="var">11+</span> <span class="op">=</span> <span class="op">(</span><span class="var">Higher<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.50</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Reading<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.25</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Maths<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.25</span><span class="op">)</span>
+
+<span class="label">%ile</span> <span class="op">=</span> national percentile rank vs all <span class="num">15,233</span> England KS2 schools <span class="op">(</span><span class="num">0</span>–<span class="num">100</span><span class="op">)</span>
+<span class="label">x<sub>LA</sub></span>  <span class="op">=</span> min-max normalised within the school's own local authority <span class="op">(</span><span class="num">0</span>–<span class="num">100</span><span class="op">)</span>
 </div>
 
 <div class="weight-grid">
   <div class="weight-item">
-    <div class="pct">45%</div>
-    <div class="wlabel">RWM Expected Standard</div>
-    <div class="wdesc">% reaching the expected standard in reading, writing &amp; maths combined — the headline KS2 measure</div>
+    <div class="pct">40%</div>
+    <div class="wlabel">RWM Expected (percentile)</div>
+    <div class="wdesc">National rank for % reaching the expected standard in reading, writing &amp; maths combined — breadth incl. writing</div>
   </div>
   <div class="weight-item">
-    <div class="pct">15%</div>
-    <div class="wlabel">RWM Higher Standard</div>
-    <div class="wdesc">% working at greater depth across all three — rewards stretch for the most able pupils</div>
+    <div class="pct">40%</div>
+    <div class="wlabel">RWM Higher (percentile)</div>
+    <div class="wdesc">National rank for % working at greater depth across all three — stretch for the most able pupils</div>
   </div>
   <div class="weight-item">
-    <div class="pct">20%</div>
-    <div class="wlabel">Reading Scaled Score</div>
-    <div class="wdesc">Average KS2 reading scaled score — the foundation literacy measure</div>
+    <div class="pct">10%</div>
+    <div class="wlabel">Reading SS (percentile)</div>
+    <div class="wdesc">National rank for the average KS2 reading scaled score — depth in literacy</div>
   </div>
   <div class="weight-item">
-    <div class="pct">20%</div>
-    <div class="wlabel">Maths Scaled Score</div>
-    <div class="wdesc">Average KS2 maths scaled score — the foundation numeracy measure</div>
+    <div class="pct">10%</div>
+    <div class="wlabel">Maths SS (percentile)</div>
+    <div class="wdesc">National rank for the average KS2 maths scaled score — depth in numeracy</div>
   </div>
 </div>
 
   </div>
   </div><!-- /pri-only -->
 
-  <div class="normalise-card">
-    <h3>Why normalise?</h3>
+  <div class="normalise-card sec-only">
+    <h3>Why normalise? (Secondary SQS)</h3>
     <p>Each metric is divided by its England national average and multiplied by 100. This puts all four metrics on the same scale before weighting, so a school scoring <strong style="color:#e2e8f0">100</strong> on any metric is exactly at the national average, and scores above 100 are above average.</p>
     <div class="interpret-grid">
       <div class="interpret-item" style="background:#14281d;border:1px solid #166534">
@@ -580,6 +582,33 @@ td, thead th { padding: 10px 8px; }
       <div class="interpret-item" style="background:#1c1010;border:1px solid #7f1d1d">
         <span class="badge" style="color:#f87171">&lt; 120</span>
         <span style="color:#fca5a5">Near / below avg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="normalise-card pri-only">
+    <h3>Reading the primary indices</h3>
+    <p>Primary indices are scored on a <strong style="color:#e2e8f0">0–100</strong> scale. For API and Grammar Readiness, each input is a <strong>national percentile</strong> — a score of 75 means the school is ahead of 75% of all England primaries on that measure. The England average works out at <strong style="color:#e2e8f0">≈49</strong>. (11+ Readiness instead ranks each school 0–100 <em>within its own local authority</em>.)</p>
+    <div class="interpret-grid">
+      <div class="interpret-item" style="background:#14281d;border:1px solid #166534">
+        <span class="badge" style="color:#4ade80">80 +</span>
+        <span style="color:#86efac">Top tier</span>
+      </div>
+      <div class="interpret-item" style="background:#1a2e1a;border:1px solid #15803d">
+        <span class="badge" style="color:#86efac">65–79</span>
+        <span style="color:#86efac">Well above avg</span>
+      </div>
+      <div class="interpret-item" style="background:#2a2410;border:1px solid #854d0e">
+        <span class="badge" style="color:#fde68a">50–64</span>
+        <span style="color:#fcd34d">Above average</span>
+      </div>
+      <div class="interpret-item" style="background:#241a0f;border:1px solid #92400e">
+        <span class="badge" style="color:#fb923c">35–49</span>
+        <span style="color:#fdba74">Around / below avg</span>
+      </div>
+      <div class="interpret-item" style="background:#1c1010;border:1px solid #7f1d1d">
+        <span class="badge" style="color:#f87171">&lt; 35</span>
+        <span style="color:#fca5a5">Lower tier</span>
       </div>
     </div>
   </div>
@@ -612,18 +641,20 @@ td, thead th { padding: 10px 8px; }
   <div class="formula-card">
     <h3>Navigation Primary School, Altrincham (2025)</h3>
     <div class="formula-block">
-<span class="label">Step 1 — Normalise each metric:</span>
-  RWM    <span class="op">=</span> <span class="num">92</span>  <span class="op">/</span> <span class="num">61</span>    <span class="op">×</span> <span class="num">100</span> <span class="op">=</span> <span class="var">150.8</span>
-  Higher <span class="op">=</span> <span class="num">30</span>  <span class="op">/</span>  <span class="num">8</span>    <span class="op">×</span> <span class="num">100</span> <span class="op">=</span> <span class="var">375.0</span>
-  Read   <span class="op">=</span> <span class="num">112</span> <span class="op">/</span> <span class="num">105.0</span> <span class="op">×</span> <span class="num">100</span> <span class="op">=</span> <span class="var">106.7</span>
-  Maths  <span class="op">=</span> <span class="num">110</span> <span class="op">/</span> <span class="num">104.5</span> <span class="op">×</span> <span class="num">100</span> <span class="op">=</span> <span class="var">105.3</span>
+<span class="label">Raw 2025 KS2 values:</span>  RWM expected <span class="num">72%</span> <span class="op">|</span> RWM higher <span class="num">13%</span> <span class="op">|</span> Reading SS <span class="num">108</span> <span class="op">|</span> Maths SS <span class="num">108</span>
 
-<span class="label">Step 2 — Apply weights:</span>
-<span class="op">(</span><span class="var">150.8</span> <span class="op">×</span> <span class="num">0.45</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">375.0</span> <span class="op">×</span> <span class="num">0.15</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">106.7</span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">105.3</span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span>
-<span class="op">=</span> <span class="num">67.9</span> <span class="op">+</span> <span class="num">56.2</span> <span class="op">+</span> <span class="num">21.3</span> <span class="op">+</span> <span class="num">21.1</span>
-<span class="label">= PQS 166.5</span>
+<span class="label">Step 1 — Convert each to a national percentile:</span>
+  Expected <span class="op">=</span> <span class="var">71.1</span>   <span class="op">(</span>ahead of 71% of England primaries<span class="op">)</span>
+  Higher   <span class="op">=</span> <span class="var">78.0</span>
+  Reading  <span class="op">=</span> <span class="var">80.4</span>
+  Maths    <span class="op">=</span> <span class="var">87.5</span>
+
+<span class="label">Step 2 — Apply Academic Performance Index weights:</span>
+<span class="op">(</span><span class="var">71.1</span> <span class="op">×</span> <span class="num">0.40</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">78.0</span> <span class="op">×</span> <span class="num">0.40</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">80.4</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">87.5</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span>
+<span class="op">=</span> <span class="num">28.4</span> <span class="op">+</span> <span class="num">31.2</span> <span class="op">+</span> <span class="num">8.0</span> <span class="op">+</span> <span class="num">8.8</span>
+<span class="label">= API 76.4</span>
 </div>
-<p style="font-size:13px;color:var(--muted)">A PQS of 166.5 means Navigation Primary’s weighted KS2 performance is <strong style="color:#e2e8f0">66.5% above the England national average</strong>.</p>
+<p style="font-size:13px;color:var(--muted)">An API of 76.4 places Navigation Primary in roughly the <strong style="color:#e2e8f0">top quarter of primary schools nationally</strong>, on a 0–100 scale where the England average sits at <strong style="color:#e2e8f0">48.8</strong>.</p>
 
   </div>
   </div><!-- /pri-only -->
@@ -651,6 +682,18 @@ td, thead th { padding: 10px 8px; }
     <span class="filter-count" id="filterCount"></span>
   </div>
 
+  <div class="pri-only" style="margin:0 0 16px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span class="filter-label">Rank by</span>
+      <select id="priIndexSelect" style="background:#0d1117;color:#e2e8f0;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;cursor:pointer">
+        <option value="api">Academic Performance Index (API)</option>
+        <option value="grammar">Grammar School Readiness (GRI)</option>
+        <option value="elevenplus">11+ Readiness — vs Local Authority</option>
+      </select>
+      <span class="filter-count" id="priIndexDesc"></span>
+    </div>
+  </div>
+
   <div class="table-wrap">
     <table>
       <thead id="tableHead"></thead>
@@ -663,8 +706,8 @@ td, thead th { padding: 10px 8px; }
   <div class="notes">
     <strong>📌 Data Notes &amp; Caveats</strong>
     <ul>
-      <li>Use the <strong>Secondary / Primary toggle</strong> to switch phase. Secondary schools are ranked by <strong>SQS</strong> from 2024/25 GCSE data; primary schools by <strong>PQS</strong> from 2024/25 KS2 SATs data. The <strong>region tabs</strong> and <strong>type checkboxes</strong> apply to whichever phase is active.</li>
-      <li><strong>Secondary (SQS)</strong> uses Attainment 8, Grade 5+ English &amp; Maths, EBacc APS and EBacc Entry. <strong>Primary (PQS)</strong> uses % reaching the expected and higher standards in reading, writing &amp; maths combined, plus average reading and maths scaled scores.</li>
+      <li>Use the <strong>Secondary / Primary toggle</strong> to switch phase. Secondary schools are ranked by <strong>SQS</strong> from 2024/25 GCSE data; primary schools by one of three <strong>percentile indices</strong> from 2024/25 KS2 SATs data, chosen from the "Rank by" selector. The <strong>region tabs</strong> and <strong>type checkboxes</strong> apply to whichever phase is active.</li>
+      <li><strong>Secondary (SQS)</strong> uses Attainment 8, Grade 5+ English &amp; Maths, EBacc APS and EBacc Entry, each normalised against the England average (100 = average). <strong>Primary</strong> offers the <strong>Academic Performance Index</strong> (40% expected / 40% higher / 10% reading / 10% maths), <strong>Grammar School Readiness</strong> (50% higher / 25% reading / 25% maths) and <strong>11+ Readiness</strong> (the same blend normalised within each local authority). Each input is a national percentile (0–100) computed against all 15,233 England KS2 schools, so the indices are not double-counting the reading/maths signal on different scales.</li>
       <li><strong>Progress measures are unavailable for 2025/26</strong> at both key stages — COVID-19 disrupted the 2020/21 baseline assessments — so both formulas use attainment only. They are expected to return in 2027.</li>
       <li>Many figures (especially EBacc entry, and all <strong>independent / prep school</strong> values) are <strong>approximate / illustrative</strong> where exact 2025 published data was not available; independents largely sit IGCSEs/internal assessments outside DfE reporting. Treat rankings as indicative.</li>
       <li>The England benchmark row shows 100 for all normalised metrics by definition and appears at the foot of <em>every</em> table.</li>
@@ -675,7 +718,7 @@ td, thead th { padding: 10px 8px; }
 </div><!-- /wrap -->
 
 <div class="footer">
-  Generated with custom SQS &amp; PQS formulas · Secondary &amp; Primary · Greater Manchester &amp; Greater London · 2025 data · github.com/charlesso/uk-secondary-school-league
+  Generated with custom SQS &amp; percentile indices · Secondary &amp; Primary · Greater Manchester &amp; Greater London · 2025 data · github.com/charlesso/uk-secondary-school-league
 </div>
 
 <script>
@@ -1081,395 +1124,393 @@ const schoolsLondon = [
 ];
 
 // ─────────── PRIMARY (KS2 2025) data ───────────
-const PRI_ENG = { rwm: 61, hs: 8, read: 105.0, maths: 104.5 };
-
 const priBenchmark = { name:"England Average", area:"National", type:"Benchmark",
-  rwm:61, hs:8, read:105.0, maths:104.5, benchmark:true };
+  rwm:61, hs:8, read:105.0, maths:104.5, pe:41.9, ph:57.6, pr:41.2, pm:48.6, lh:50, lr:50, lm:50, benchmark:true };
 
 const primaryManchester = [
   { name:"Nicol Mere School", area:"Wigan", type:"Community",
-    rwm:97, hs:33, read:114, maths:112 },
+    rwm:97, hs:33, read:114, maths:112, pe:99.5, ph:99.0, pr:99.9, pm:99.3, lh:100, lr:100, lm:100 },
   { name:"Bradshaw Hall Primary School", area:"Stockport", type:"Community",
-    rwm:90, hs:23, read:112, maths:113 },
+    rwm:90, hs:23, read:112, maths:113, pe:97.6, ph:94.8, pr:99.1, pm:99.7, lh:59.0, lr:100, lm:100 },
   { name:"Queensgate Primary School", area:"Stockport", type:"Community",
-    rwm:92, hs:31, read:112, maths:112 },
+    rwm:92, hs:31, read:112, maths:112, pe:98.4, ph:98.5, pr:99.1, pm:99.3, lh:79.5, lr:100, lm:94.1 },
   { name:"Brooklands Primary School", area:"Trafford", type:"Community",
-    rwm:87, hs:32, read:111, maths:113 },
+    rwm:87, hs:32, read:111, maths:113, pe:95.6, ph:98.7, pr:97.6, pm:99.7, lh:88.9, lr:96.2, lm:100 },
   { name:"Well Green Primary School", area:"Trafford", type:"Community",
-    rwm:91, hs:22, read:111, maths:112 },
+    rwm:91, hs:22, read:111, maths:112, pe:98.1, ph:94.0, pr:97.6, pm:99.3, lh:61.1, lr:96.2, lm:96.4 },
   { name:"Park Road Sale Primary School", area:"Trafford", type:"Academy",
-    rwm:89, hs:26, read:112, maths:111 },
+    rwm:89, hs:26, read:112, maths:111, pe:97.0, ph:96.6, pr:99.1, pm:98.5, lh:72.2, lr:100, lm:92.9 },
   { name:"Tyntesfield Primary School", area:"Trafford", type:"Academy",
-    rwm:84, hs:36, read:111, maths:112 },
+    rwm:84, hs:36, read:111, maths:112, pe:93.2, ph:99.4, pr:97.6, pm:99.3, lh:100, lr:96.2, lm:96.4 },
   { name:"Park Road Academy Primary School", area:"Trafford", type:"Academy",
-    rwm:90, hs:27, read:111, maths:112 },
+    rwm:90, hs:27, read:111, maths:112, pe:97.6, ph:97.0, pr:97.6, pm:99.3, lh:75.0, lr:96.2, lm:96.4 },
   { name:"Orrell Newfold Community Primary School", area:"Wigan", type:"Community",
-    rwm:93, hs:25, read:110, maths:112 },
+    rwm:93, hs:25, read:110, maths:112, pe:98.8, ph:96.1, pr:94.4, pm:99.3, lh:75.8, lr:81.0, lm:100 },
   { name:"Gatley Primary School", area:"Stockport", type:"Academy",
-    rwm:93, hs:39, read:112, maths:110 },
+    rwm:93, hs:39, read:112, maths:110, pe:98.8, ph:99.7, pr:99.1, pm:96.6, lh:100, lr:100, lm:82.4 },
   { name:"The Olive School, Bolton", area:"Bolton", type:"Muslim",
-    rwm:95, hs:32, read:111, maths:111 },
+    rwm:95, hs:32, read:111, maths:111, pe:99.2, ph:98.7, pr:97.6, pm:98.5, lh:100, lr:100, lm:100 },
   { name:"Didsbury CofE Primary School", area:"Manchester", type:"CofE",
-    rwm:79, hs:13, read:112, maths:110 },
+    rwm:79, hs:13, read:112, maths:110, pe:86.0, ph:78.0, pr:99.1, pm:96.6, lh:65.0, lr:100, lm:100 },
   { name:"Broadoak Primary School", area:"Salford", type:"Academy",
-    rwm:88, hs:22, read:111, maths:111 },
+    rwm:88, hs:22, read:111, maths:111, pe:96.4, ph:94.0, pr:97.6, pm:98.5, lh:68.8, lr:100, lm:100 },
   { name:"Chantlers Primary School", area:"Bury", type:"Community",
-    rwm:97, hs:6, read:111, maths:110 },
+    rwm:97, hs:6, read:111, maths:110, pe:99.5, ph:45.2, pr:97.6, pm:96.6, lh:16.2, lr:90.9, lm:91.7 },
   { name:"Hindley Green Community Primary School", area:"Wigan", type:"Academy",
-    rwm:80, hs:13, read:111, maths:110 },
+    rwm:80, hs:13, read:111, maths:110, pe:87.8, ph:78.0, pr:97.6, pm:96.6, lh:39.4, lr:85.7, lm:90.5 },
   { name:"Bowdon CofE Primary School", area:"Trafford", type:"CofE",
-    rwm:80, hs:34, read:110, maths:111 },
+    rwm:80, hs:34, read:110, maths:111, pe:87.8, ph:99.2, pr:94.4, pm:98.5, lh:94.4, lr:92.3, lm:92.9 },
   { name:"Wardley CofE Primary School", area:"Salford", type:"CofE",
-    rwm:89, hs:32, read:111, maths:110 },
+    rwm:89, hs:32, read:111, maths:110, pe:97.0, ph:98.7, pr:97.6, pm:96.6, lh:100, lr:100, lm:92.3 },
   { name:"James Brindley Community Primary School", area:"Salford", type:"Academy",
-    rwm:82, hs:11, read:111, maths:110 },
+    rwm:82, hs:11, read:111, maths:110, pe:90.6, ph:71.1, pr:97.6, pm:96.6, lh:34.4, lr:100, lm:92.3 },
   { name:"Gorsefield Primary School", area:"Bury", type:"Academy",
-    rwm:88, hs:37, read:110, maths:111 },
+    rwm:88, hs:37, read:110, maths:111, pe:96.4, ph:99.5, pr:94.4, pm:98.5, lh:100, lr:81.8, lm:100 },
   { name:"Hazlehurst Primary Academy", area:"Bury", type:"Academy",
-    rwm:90, hs:10, read:112, maths:109 },
+    rwm:90, hs:10, read:112, maths:109, pe:97.6, ph:66.5, pr:99.1, pm:93.2, lh:27.0, lr:100, lm:83.3 },
   { name:"Didsbury Road Primary School", area:"Stockport", type:"Community",
-    rwm:82, hs:12, read:111, maths:110 },
+    rwm:82, hs:12, read:111, maths:110, pe:90.6, ph:74.3, pr:97.6, pm:96.6, lh:30.8, lr:91.7, lm:82.4 },
   { name:"St Joseph's Catholic Primary School, a Voluntary Academy", area:"Trafford", type:"Roman Catholic",
-    rwm:85, hs:25, read:110, maths:111 },
+    rwm:85, hs:25, read:110, maths:111, pe:93.9, ph:96.1, pr:94.4, pm:98.5, lh:69.4, lr:92.3, lm:92.9 },
   { name:"St Hugh of Lincoln RC Primary School", area:"Trafford", type:"Roman Catholic",
-    rwm:87, hs:18, read:110, maths:110 },
+    rwm:87, hs:18, read:110, maths:110, pe:95.6, ph:89.4, pr:94.4, pm:96.6, lh:50.0, lr:92.3, lm:89.3 },
   { name:"Walmsley CofE Primary School", area:"Bolton", type:"CofE",
-    rwm:85, hs:25, read:110, maths:110 },
+    rwm:85, hs:25, read:110, maths:110, pe:93.9, ph:96.1, pr:94.4, pm:96.6, lh:78.1, lr:90.9, lm:91.7 },
   { name:"Manley Park Primary School", area:"Manchester", type:"Community",
-    rwm:73, hs:15, read:110, maths:110 },
+    rwm:73, hs:15, read:110, maths:110, pe:73.7, ph:83.9, pr:94.4, pm:96.6, lh:75.0, lr:90.9, lm:100 },
   { name:"Our Lady of the Rosary RC Primary School", area:"Trafford", type:"Roman Catholic",
-    rwm:86, hs:24, read:109, maths:111 },
+    rwm:86, hs:24, read:109, maths:111, pe:94.8, ph:95.5, pr:88.8, pm:98.5, lh:66.7, lr:88.5, lm:92.9 },
   { name:"Brookburn Community School", area:"Manchester", type:"Academy",
-    rwm:87, hs:15, read:112, maths:108 },
+    rwm:87, hs:15, read:112, maths:108, pe:95.6, ph:83.9, pr:99.1, pm:87.5, lh:75.0, lr:100, lm:90.9 },
   { name:"Springfield Primary School", area:"Trafford", type:"Community",
-    rwm:80, hs:14, read:110, maths:110 },
+    rwm:80, hs:14, read:110, maths:110, pe:87.8, ph:81.6, pr:94.4, pm:96.6, lh:38.9, lr:92.3, lm:89.3 },
   { name:"Abbey Hey Primary Academy", area:"Manchester", type:"Academy",
-    rwm:85, hs:2, read:110, maths:110 },
+    rwm:85, hs:2, read:110, maths:110, pe:93.9, ph:24.2, pr:94.4, pm:96.6, lh:10.0, lr:90.9, lm:100 },
   { name:"Christ The King RC Primary School", area:"Salford", type:"Roman Catholic",
-    rwm:89, hs:15, read:109, maths:111 },
+    rwm:89, hs:15, read:109, maths:111, pe:97.0, ph:83.9, pr:88.8, pm:98.5, lh:46.9, lr:81.8, lm:100 },
   { name:"Cheadle Village Primary School", area:"Stockport", type:"Community",
-    rwm:56, hs:5, read:110, maths:110 },
+    rwm:56, hs:5, read:110, maths:110, pe:30.2, ph:40.6, pr:94.4, pm:96.6, lh:12.8, lr:83.3, lm:82.4 },
   { name:"St John's CofE Primary School, Dukinfield", area:"Tameside", type:"CofE",
-    rwm:83, hs:15, read:109, maths:111 },
+    rwm:83, hs:15, read:109, maths:111, pe:92.0, ph:83.9, pr:88.8, pm:98.5, lh:78.9, lr:100, lm:100 },
   { name:"Gilded Hollins Community School", area:"Wigan", type:"Community",
-    rwm:97, hs:10, read:111, maths:109 },
+    rwm:97, hs:10, read:111, maths:109, pe:99.5, ph:66.5, pr:97.6, pm:93.2, lh:30.3, lr:85.7, lm:85.7 },
   { name:"Woodfield Primary School", area:"Wigan", type:"Community",
-    rwm:93, hs:31, read:109, maths:110 },
+    rwm:93, hs:31, read:109, maths:110, pe:98.8, ph:98.5, pr:88.8, pm:96.6, lh:93.9, lr:76.2, lm:90.5 },
   { name:"St Paul's CofE Primary School", area:"Manchester", type:"CofE",
-    rwm:71, hs:17, read:110, maths:109 },
+    rwm:71, hs:17, read:110, maths:109, pe:68.6, ph:87.5, pr:94.4, pm:93.2, lh:85.0, lr:90.9, lm:95.5 },
   { name:"Brentnall Academy", area:"Salford", type:"Academy",
-    rwm:75, hs:7, read:111, maths:108 },
+    rwm:75, hs:7, read:111, maths:108, pe:78.0, ph:51.4, pr:97.6, pm:87.5, lh:21.9, lr:100, lm:76.9 },
   { name:"Moss Hey Primary School", area:"Stockport", type:"Community",
-    rwm:81, hs:13, read:110, maths:109 },
+    rwm:81, hs:13, read:110, maths:109, pe:89.4, ph:78.0, pr:94.4, pm:93.2, lh:33.3, lr:83.3, lm:76.5 },
   { name:"St James' Catholic Primary School Orrell", area:"Wigan", type:"Roman Catholic",
-    rwm:80, hs:20, read:110, maths:109 },
+    rwm:80, hs:20, read:110, maths:109, pe:87.8, ph:92.1, pr:94.4, pm:93.2, lh:60.6, lr:81.0, lm:85.7 },
   { name:"St Agnes CofE Primary School", area:"Oldham", type:"CofE",
-    rwm:73, hs:7, read:109, maths:110 },
+    rwm:73, hs:7, read:109, maths:110, pe:73.7, ph:51.4, pr:88.8, pm:96.6, lh:35.0, lr:94.1, lm:100 },
   { name:"The Valley Community Primary School", area:"Bolton", type:"Community",
-    rwm:83, hs:27, read:109, maths:110 },
+    rwm:83, hs:27, read:109, maths:110, pe:92.0, ph:97.0, pr:88.8, pm:96.6, lh:84.4, lr:81.8, lm:91.7 },
   { name:"Greenhill Primary School", area:"Bury", type:"Academy",
-    rwm:86, hs:23, read:110, maths:109 },
+    rwm:86, hs:23, read:110, maths:109, pe:94.8, ph:94.8, pr:94.4, pm:93.2, lh:62.2, lr:81.8, lm:83.3 },
   { name:"Woodheys Primary School", area:"Trafford", type:"Community",
-    rwm:75, hs:27, read:109, maths:110 },
+    rwm:75, hs:27, read:109, maths:110, pe:78.0, ph:97.0, pr:88.8, pm:96.6, lh:75.0, lr:88.5, lm:89.3 },
   { name:"Bollin Primary School", area:"Trafford", type:"Academy",
-    rwm:75, hs:25, read:110, maths:109 },
+    rwm:75, hs:25, read:110, maths:109, pe:78.0, ph:96.1, pr:94.4, pm:93.2, lh:69.4, lr:92.3, lm:85.7 },
   { name:"Alexandra Park Primary School", area:"Stockport", type:"Community",
-    rwm:82, hs:34, read:110, maths:109 },
+    rwm:82, hs:34, read:110, maths:109, pe:90.6, ph:99.2, pr:94.4, pm:93.2, lh:87.2, lr:83.3, lm:76.5 },
   { name:"St John's Church of England Primary School", area:"Stockport", type:"CofE",
-    rwm:81, hs:10, read:110, maths:109 },
+    rwm:81, hs:10, read:110, maths:109, pe:89.4, ph:66.5, pr:94.4, pm:93.2, lh:25.6, lr:83.3, lm:76.5 },
   { name:"Beaver Road Primary School", area:"Manchester", type:"Academy",
-    rwm:75, hs:20, read:110, maths:109 },
+    rwm:75, hs:20, read:110, maths:109, pe:78.0, ph:92.1, pr:94.4, pm:93.2, lh:100, lr:90.9, lm:95.5 },
   { name:"St Wilfrid's RC Primary School", area:"Manchester", type:"Roman Catholic",
-    rwm:92, hs:16, read:110, maths:109 },
+    rwm:92, hs:16, read:110, maths:109, pe:98.4, ph:85.7, pr:94.4, pm:93.2, lh:80.0, lr:90.9, lm:95.5 },
   { name:"Livingstone Primary School", area:"Tameside", type:"Community",
-    rwm:79, hs:7, read:109, maths:110 },
+    rwm:79, hs:7, read:109, maths:110, pe:86.0, ph:51.4, pr:88.8, pm:96.6, lh:36.8, lr:100, lm:95.8 },
   { name:"Beaumont Primary School", area:"Bolton", type:"Community",
-    rwm:84, hs:29, read:108, maths:111 },
+    rwm:84, hs:29, read:108, maths:111, pe:93.2, ph:97.8, pr:80.4, pm:98.5, lh:90.6, lr:72.7, lm:100 },
   { name:"St Thomas of Canterbury RC Primary School", area:"Salford", type:"Roman Catholic",
-    rwm:83, hs:15, read:108, maths:111 },
+    rwm:83, hs:15, read:108, maths:111, pe:92.0, ph:83.9, pr:80.4, pm:98.5, lh:46.9, lr:72.7, lm:100 },
   { name:"Tithe Barn Primary School", area:"Stockport", type:"Community",
-    rwm:84, hs:3, read:111, maths:108 },
+    rwm:84, hs:3, read:111, maths:108, pe:93.2, ph:29.8, pr:97.6, pm:87.5, lh:7.7, lr:91.7, lm:70.6 },
   { name:"Davyhulme Primary School", area:"Trafford", type:"Community",
-    rwm:90, hs:12, read:110, maths:109 },
+    rwm:90, hs:12, read:110, maths:109, pe:97.6, ph:74.3, pr:94.4, pm:93.2, lh:33.3, lr:92.3, lm:85.7 },
   { name:"Caldershaw Primary School", area:"Rochdale", type:"Community",
-    rwm:90, hs:10, read:109, maths:110 },
+    rwm:90, hs:10, read:109, maths:110, pe:97.6, ph:66.5, pr:88.8, pm:96.6, lh:52.6, lr:90.0, lm:100 },
   { name:"St Anne's CofE Lydgate Primary School", area:"Oldham", type:"CofE",
-    rwm:87, hs:10, read:110, maths:109 },
+    rwm:87, hs:10, read:110, maths:109, pe:95.6, ph:66.5, pr:94.4, pm:93.2, lh:50.0, lr:100, lm:95.5 },
   { name:"Bowness Primary School", area:"Bolton", type:"Academy",
-    rwm:86, hs:14, read:110, maths:109 },
+    rwm:86, hs:14, read:110, maths:109, pe:94.8, ph:81.6, pr:94.4, pm:93.2, lh:43.8, lr:90.9, lm:83.3 },
   { name:"St Richard's RC Primary School", area:"Manchester", type:"Roman Catholic",
-    rwm:75, hs:13, read:109, maths:109 },
+    rwm:75, hs:13, read:109, maths:109, pe:78.0, ph:78.0, pr:88.8, pm:93.2, lh:65.0, lr:86.4, lm:95.5 },
   { name:"St Luke's CofE Primary School", area:"Wigan", type:"CofE",
-    rwm:90, hs:23, read:108, maths:110 },
+    rwm:90, hs:23, read:108, maths:110, pe:97.6, ph:94.8, pr:80.4, pm:96.6, lh:69.7, lr:71.4, lm:90.5 },
   { name:"Markland Hill Primary School", area:"Bolton", type:"Community",
-    rwm:77, hs:32, read:110, maths:108 },
+    rwm:77, hs:32, read:110, maths:108, pe:82.2, ph:98.7, pr:94.4, pm:87.5, lh:100, lr:90.9, lm:75.0 },
   { name:"St Alphonsus RC Primary School", area:"Trafford", type:"Roman Catholic",
-    rwm:76, hs:7, read:110, maths:108 },
+    rwm:76, hs:7, read:110, maths:108, pe:80.1, ph:51.4, pr:94.4, pm:87.5, lh:19.4, lr:92.3, lm:82.1 },
   { name:"Victoria Park Junior School", area:"Trafford", type:"Community",
-    rwm:73, hs:10, read:110, maths:108 },
+    rwm:73, hs:10, read:110, maths:108, pe:73.7, ph:66.5, pr:94.4, pm:87.5, lh:27.8, lr:92.3, lm:82.1 },
   { name:"St Marie's Catholic Primary School Standish", area:"Wigan", type:"Roman Catholic",
-    rwm:91, hs:24, read:110, maths:108 },
+    rwm:91, hs:24, read:110, maths:108, pe:98.1, ph:95.5, pr:94.4, pm:87.5, lh:72.7, lr:81.0, lm:81.0 },
   { name:"St Mary's CofE Primary School High Crompton", area:"Oldham", type:"CofE",
-    rwm:77, hs:17, read:110, maths:108 },
+    rwm:77, hs:17, read:110, maths:108, pe:82.2, ph:87.5, pr:94.4, pm:87.5, lh:85.0, lr:100, lm:90.9 },
   { name:"Pownall Green Primary School", area:"Stockport", type:"Community",
-    rwm:83, hs:29, read:110, maths:108 },
+    rwm:83, hs:29, read:110, maths:108, pe:92.0, ph:97.8, pr:94.4, pm:87.5, lh:74.4, lr:83.3, lm:70.6 },
   { name:"Holden Clough Primary School", area:"Tameside", type:"Academy",
-    rwm:74, hs:9, read:109, maths:109 },
+    rwm:74, hs:9, read:109, maths:109, pe:76.0, ph:61.8, pr:88.8, pm:93.2, lh:47.4, lr:100, lm:91.7 },
   { name:"Masefield Primary School", area:"Bolton", type:"Academy",
-    rwm:84, hs:22, read:109, maths:109 },
+    rwm:84, hs:22, read:109, maths:109, pe:93.2, ph:94.0, pr:88.8, pm:93.2, lh:68.8, lr:81.8, lm:83.3 },
   { name:"St Teresa's RC Primary School", area:"Bolton", type:"Roman Catholic",
-    rwm:82, hs:18, read:108, maths:110 },
+    rwm:82, hs:18, read:108, maths:110, pe:90.6, ph:89.4, pr:80.4, pm:96.6, lh:56.2, lr:72.7, lm:91.7 },
   { name:"Broadheath Primary School", area:"Trafford", type:"Community",
-    rwm:79, hs:11, read:108, maths:110 },
+    rwm:79, hs:11, read:108, maths:110, pe:86.0, ph:71.1, pr:80.4, pm:96.6, lh:30.6, lr:84.6, lm:89.3 },
   { name:"St David Haigh and Aspull CofE Primary School", area:"Wigan", type:"CofE",
-    rwm:88, hs:31, read:109, maths:109 },
+    rwm:88, hs:31, read:109, maths:109, pe:96.4, ph:98.5, pr:88.8, pm:93.2, lh:93.9, lr:76.2, lm:85.7 },
   { name:"St Andrew's CofE Primary School", area:"Salford", type:"CofE",
-    rwm:84, hs:16, read:109, maths:109 },
+    rwm:84, hs:16, read:109, maths:109, pe:93.2, ph:85.7, pr:88.8, pm:93.2, lh:50.0, lr:81.8, lm:84.6 },
   { name:"Holy Family Roman Catholic Primary School, Rochdale", area:"Rochdale", type:"Roman Catholic",
-    rwm:77, hs:10, read:110, maths:108 },
+    rwm:77, hs:10, read:110, maths:108, pe:82.2, ph:66.5, pr:94.4, pm:87.5, lh:52.6, lr:100, lm:84.6 },
   { name:"St Anne's RC Primary School", area:"Tameside", type:"Roman Catholic",
-    rwm:72, hs:14, read:109, maths:109 },
+    rwm:72, hs:14, read:109, maths:109, pe:71.1, ph:81.6, pr:88.8, pm:93.2, lh:73.7, lr:100, lm:91.7 },
   { name:"Moorlands Junior School", area:"Trafford", type:"Community",
-    rwm:76, hs:9, read:109, maths:109 },
+    rwm:76, hs:9, read:109, maths:109, pe:80.1, ph:61.8, pr:88.8, pm:93.2, lh:25.0, lr:88.5, lm:85.7 },
   { name:"Rushcroft Primary School", area:"Oldham", type:"Community",
-    rwm:80, hs:0, read:109, maths:109 },
+    rwm:80, hs:0, read:109, maths:109, pe:87.8, ph:10.5, pr:88.8, pm:93.2, lh:0, lr:94.1, lm:95.5 },
   { name:"West Didsbury CE Primary School", area:"Manchester", type:"CofE",
-    rwm:73, hs:17, read:109, maths:109 },
+    rwm:73, hs:17, read:109, maths:109, pe:73.7, ph:87.5, pr:88.8, pm:93.2, lh:85.0, lr:86.4, lm:95.5 },
   { name:"Blackrod Primary School", area:"Bolton", type:"Community",
-    rwm:78, hs:17, read:109, maths:109 },
+    rwm:78, hs:17, read:109, maths:109, pe:84.3, ph:87.5, pr:88.8, pm:93.2, lh:53.1, lr:81.8, lm:83.3 },
   { name:"Ladybrook Primary School", area:"Stockport", type:"Community",
-    rwm:83, hs:14, read:110, maths:108 },
+    rwm:83, hs:14, read:110, maths:108, pe:92.0, ph:81.6, pr:94.4, pm:87.5, lh:35.9, lr:83.3, lm:70.6 },
   { name:"Oak Tree Primary School", area:"Stockport", type:"Community",
-    rwm:78, hs:15, read:109, maths:109 },
+    rwm:78, hs:15, read:109, maths:109, pe:84.3, ph:83.9, pr:88.8, pm:93.2, lh:38.5, lr:75.0, lm:76.5 },
   { name:"Flixton Primary School", area:"Trafford", type:"Community",
-    rwm:79, hs:15, read:109, maths:109 },
+    rwm:79, hs:15, read:109, maths:109, pe:86.0, ph:83.9, pr:88.8, pm:93.2, lh:41.7, lr:88.5, lm:85.7 },
   { name:"Torkington Primary School", area:"Stockport", type:"Community",
-    rwm:90, hs:31, read:109, maths:109 },
+    rwm:90, hs:31, read:109, maths:109, pe:97.6, ph:98.5, pr:88.8, pm:93.2, lh:79.5, lr:75.0, lm:76.5 },
   { name:"Golborne Community Primary School", area:"Wigan", type:"Academy",
-    rwm:89, hs:11, read:108, maths:109 },
+    rwm:89, hs:11, read:108, maths:109, pe:97.0, ph:71.1, pr:80.4, pm:93.2, lh:33.3, lr:71.4, lm:85.7 },
   { name:"St Hilda's CofE Primary School", area:"Trafford", type:"CofE",
-    rwm:73, hs:5, read:109, maths:108 },
+    rwm:73, hs:5, read:109, maths:108, pe:73.7, ph:40.6, pr:88.8, pm:87.5, lh:13.9, lr:88.5, lm:82.1 },
   { name:"St Christopher's Catholic Primary School", area:"Stockport", type:"Roman Catholic",
-    rwm:71, hs:7, read:110, maths:107 },
+    rwm:71, hs:7, read:110, maths:107, pe:68.6, ph:51.4, pr:94.4, pm:78.9, lh:17.9, lr:83.3, lm:64.7 },
   { name:"St Andrew's CofE Primary School, Over Hulton", area:"Bolton", type:"CofE",
-    rwm:90, hs:16, read:108, maths:109 },
+    rwm:90, hs:16, read:108, maths:109, pe:97.6, ph:85.7, pr:80.4, pm:93.2, lh:50.0, lr:72.7, lm:83.3 },
   { name:"Our Lady's RC Primary School Wigan", area:"Wigan", type:"Roman Catholic",
-    rwm:81, hs:31, read:108, maths:109 },
+    rwm:81, hs:31, read:108, maths:109, pe:89.4, ph:98.5, pr:80.4, pm:93.2, lh:93.9, lr:71.4, lm:85.7 },
   { name:"Crompton Primary School", area:"Oldham", type:"Community",
-    rwm:79, hs:10, read:109, maths:108 },
+    rwm:79, hs:10, read:109, maths:108, pe:86.0, ph:66.5, pr:88.8, pm:87.5, lh:50.0, lr:94.1, lm:90.9 },
   { name:"Norris Bank Primary School", area:"Stockport", type:"Community",
-    rwm:85, hs:5, read:109, maths:108 },
+    rwm:85, hs:5, read:109, maths:108, pe:93.9, ph:40.6, pr:88.8, pm:87.5, lh:12.8, lr:75.0, lm:70.6 },
   { name:"St Winifred's Roman Catholic Primary School, Stockport", area:"Stockport", type:"Roman Catholic",
-    rwm:84, hs:10, read:110, maths:107 },
+    rwm:84, hs:10, read:110, maths:107, pe:93.2, ph:66.5, pr:94.4, pm:78.9, lh:25.6, lr:83.3, lm:64.7 },
   { name:"The Gates Primary School", area:"Bolton", type:"Community",
-    rwm:84, hs:7, read:108, maths:109 },
+    rwm:84, hs:7, read:108, maths:109, pe:93.2, ph:51.4, pr:80.4, pm:93.2, lh:21.9, lr:72.7, lm:83.3 },
   { name:"St Vincent's Catholic Primary School", area:"Trafford", type:"Roman Catholic",
-    rwm:89, hs:22, read:108, maths:109 },
+    rwm:89, hs:22, read:108, maths:109, pe:97.0, ph:94.0, pr:80.4, pm:93.2, lh:61.1, lr:84.6, lm:85.7 },
   { name:"St George's Church of England Primary School", area:"Stockport", type:"CofE",
-    rwm:70, hs:18, read:109, maths:108 },
+    rwm:70, hs:18, read:109, maths:108, pe:65.9, ph:89.4, pr:88.8, pm:87.5, lh:46.2, lr:75.0, lm:70.6 },
   { name:"Navigation Primary School", area:"Trafford", type:"Community",
-    rwm:72, hs:13, read:108, maths:108 },
+    rwm:72, hs:13, read:108, maths:108, pe:71.1, ph:78.0, pr:80.4, pm:87.5, lh:36.1, lr:84.6, lm:82.1 },
 
   // ── Independent (illustrative estimates — not in DfE state tables) ──
   { name:"Bridgewater School (Junior)",      area:"Salford",    type:"Independent · Prep", priv:true,
-    rwm:94, hs:35, read:113, maths:112 },
+    rwm:94, hs:35, read:113, maths:112, pe:99.1, ph:99.3, pr:99.7, pm:99.3, lh:100, lr:100, lm:100 },
   { name:"Bolton School (Junior)",           area:"Bolton",     type:"Independent · Prep", priv:true,
-    rwm:93, hs:33, read:112, maths:111 },
+    rwm:93, hs:33, read:112, maths:111, pe:98.8, ph:99.0, pr:99.1, pm:98.5, lh:100, lr:100, lm:100 },
   { name:"Cheadle Hulme School (Junior)",    area:"Stockport",  type:"Independent · Prep", priv:true,
-    rwm:91, hs:29, read:111, maths:110 },
+    rwm:91, hs:29, read:111, maths:110, pe:98.1, ph:97.8, pr:97.6, pm:96.6, lh:74.4, lr:91.7, lm:82.4 },
 ];
 
 const primaryLondon = [
   { name:"Hampden Gurney CofE Primary School", area:"Westminster", type:"CofE",
-    rwm:100, hs:19, read:114, maths:117 },
+    rwm:100, hs:19, read:114, maths:117, pe:99.8, ph:90.8, pr:99.9, pm:100.0, lh:51.4, lr:100, lm:100 },
   { name:"St James & St John Church of England Primary School", area:"Westminster", type:"CofE",
-    rwm:95, hs:32, read:114, maths:116 },
+    rwm:95, hs:32, read:114, maths:116, pe:99.2, ph:98.7, pr:99.9, pm:100.0, lh:86.5, lr:100, lm:94.1 },
   { name:"Addison Primary School", area:"Hammersmith & Fulham", type:"Community",
-    rwm:93, hs:39, read:115, maths:115 },
+    rwm:93, hs:39, read:115, maths:115, pe:98.8, ph:99.7, pr:100.0, pm:100.0, lh:88.6, lr:100, lm:100 },
   { name:"Saint Francis of Assisi Catholic Primary School", area:"Kensington & Chelsea", type:"Roman Catholic",
-    rwm:90, hs:30, read:114, maths:114 },
+    rwm:90, hs:30, read:114, maths:114, pe:97.6, ph:98.1, pr:99.9, pm:99.9, lh:71.4, lr:100, lm:100 },
   { name:"Southfield Primary School", area:"Ealing", type:"Community",
-    rwm:100, hs:39, read:113, maths:115 },
+    rwm:100, hs:39, read:113, maths:115, pe:99.8, ph:99.7, pr:99.7, pm:100.0, lh:88.6, lr:100, lm:100 },
   { name:"Gordon Primary School", area:"Redbridge", type:"Community",
-    rwm:94, hs:36, read:113, maths:114 },
+    rwm:94, hs:36, read:113, maths:114, pe:99.1, ph:99.4, pr:99.7, pm:99.9, lh:94.7, lr:100, lm:100 },
   { name:"Deer Park School", area:"Richmond upon Thames", type:"Foundation",
-    rwm:97, hs:33, read:114, maths:113 },
+    rwm:97, hs:33, read:114, maths:113, pe:99.5, ph:99.0, pr:99.9, pm:99.7, lh:75.7, lr:100, lm:100 },
   { name:"Yardley Primary School", area:"Waltham Forest", type:"Academy",
-    rwm:97, hs:37, read:113, maths:114 },
+    rwm:97, hs:37, read:113, maths:114, pe:99.5, ph:99.5, pr:99.7, pm:99.9, lh:100, lr:100, lm:100 },
   { name:"St Andrew's Catholic Primary School", area:"Lambeth", type:"Roman Catholic",
-    rwm:92, hs:23, read:113, maths:114 },
+    rwm:92, hs:23, read:113, maths:114, pe:98.4, ph:94.8, pr:99.7, pm:99.9, lh:69.7, lr:100, lm:100 },
   { name:"Park Academy", area:"Merton", type:"Foundation",
-    rwm:94, hs:44, read:114, maths:113 },
+    rwm:94, hs:44, read:114, maths:113, pe:99.1, ph:99.9, pr:99.9, pm:99.7, lh:100, lr:100, lm:100 },
   { name:"Barnes Primary School", area:"Richmond upon Thames", type:"Community",
-    rwm:96, hs:39, read:114, maths:112 },
+    rwm:96, hs:39, read:114, maths:112, pe:99.4, ph:99.7, pr:99.9, pm:99.3, lh:91.9, lr:100, lm:92.3 },
   { name:"St Richard Reynolds Catholic Primary School", area:"Richmond upon Thames", type:"Roman Catholic",
-    rwm:90, hs:40, read:114, maths:112 },
+    rwm:90, hs:40, read:114, maths:112, pe:97.6, ph:99.8, pr:99.9, pm:99.3, lh:94.6, lr:100, lm:92.3 },
   { name:"Good Shepherd RC Primary School", area:"Hammersmith & Fulham", type:"Roman Catholic",
-    rwm:100, hs:41, read:114, maths:112 },
+    rwm:100, hs:41, read:114, maths:112, pe:99.8, ph:99.8, pr:99.9, pm:99.3, lh:93.2, lr:92.3, lm:76.9 },
   { name:"St Andrew's CofE Voluntary Aided Primary School, Totteridge", area:"Barnet", type:"CofE",
-    rwm:93, hs:25, read:113, maths:113 },
+    rwm:93, hs:25, read:113, maths:113, pe:98.8, ph:96.1, pr:99.7, pm:99.7, lh:69.4, lr:100, lm:100 },
   { name:"Cheam Common Junior Academy", area:"Sutton", type:"Academy",
-    rwm:90, hs:36, read:112, maths:114 },
+    rwm:90, hs:36, read:112, maths:114, pe:97.6, ph:99.4, pr:99.1, pm:99.9, lh:67.9, lr:100, lm:95.8 },
   { name:"Westbourne Primary School", area:"Sutton", type:"Academy",
-    rwm:90, hs:53, read:111, maths:115 },
+    rwm:90, hs:53, read:111, maths:115, pe:97.6, ph:100.0, pr:97.6, pm:100.0, lh:100, lr:95.0, lm:100 },
   { name:"St Clement Danes CofE Primary School", area:"Westminster", type:"CofE",
-    rwm:100, hs:25, read:112, maths:114 },
+    rwm:100, hs:25, read:112, maths:114, pe:99.8, ph:96.1, pr:99.1, pm:99.9, lh:67.6, lr:83.3, lm:82.4 },
   { name:"Thomas Jones Primary School", area:"Kensington & Chelsea", type:"Community",
-    rwm:93, hs:27, read:113, maths:113 },
+    rwm:93, hs:27, read:113, maths:113, pe:98.8, ph:97.0, pr:99.7, pm:99.7, lh:64.3, lr:90.9, lm:91.7 },
   { name:"Harris Primary Academy Beckenham Green", area:"Bromley", type:"Academy",
-    rwm:97, hs:16, read:113, maths:113 },
+    rwm:97, hs:16, read:113, maths:113, pe:99.5, ph:85.7, pr:99.7, pm:99.7, lh:43.2, lr:100, lm:100 },
   { name:"St Stephen's CofE Primary School", area:"Hammersmith & Fulham", type:"CofE",
-    rwm:91, hs:44, read:114, maths:111 },
+    rwm:91, hs:44, read:114, maths:111, pe:98.1, ph:99.9, pr:99.9, pm:98.5, lh:100, lr:92.3, lm:69.2 },
   { name:"Aldersbrook Primary School", area:"Redbridge", type:"Community",
-    rwm:90, hs:22, read:112, maths:113 },
+    rwm:90, hs:22, read:112, maths:113, pe:97.6, ph:94.0, pr:99.1, pm:99.7, lh:57.9, lr:96.3, lm:96.7 },
   { name:"The Vineyard School", area:"Richmond upon Thames", type:"Community",
-    rwm:86, hs:30, read:112, maths:113 },
+    rwm:86, hs:30, read:112, maths:113, pe:94.8, ph:98.1, pr:99.1, pm:99.7, lh:67.6, lr:81.8, lm:100 },
   { name:"Regina Coeli Catholic Primary School", area:"Croydon", type:"Roman Catholic",
-    rwm:84, hs:29, read:112, maths:113 },
+    rwm:84, hs:29, read:112, maths:113, pe:93.2, ph:97.8, pr:99.1, pm:99.7, lh:85.3, lr:100, lm:100 },
   { name:"St Stephen's Catholic Primary School", area:"Bexley", type:"Roman Catholic",
-    rwm:93, hs:45, read:112, maths:113 },
+    rwm:93, hs:45, read:112, maths:113, pe:98.8, ph:99.9, pr:99.1, pm:99.7, lh:100, lr:100, lm:100 },
   { name:"St Luke's Church of England School", area:"Camden", type:"CofE",
-    rwm:100, hs:40, read:113, maths:112 },
+    rwm:100, hs:40, read:113, maths:112, pe:99.8, ph:99.8, pr:99.7, pm:99.3, lh:71.4, lr:100, lm:100 },
   { name:"Our Lady of Victories Catholic Primary School", area:"Wandsworth", type:"Roman Catholic",
-    rwm:96, hs:29, read:114, maths:111 },
+    rwm:96, hs:29, read:114, maths:111, pe:99.4, ph:97.8, pr:99.9, pm:98.5, lh:56.9, lr:100, lm:96.2 },
   { name:"St Michael and St Martin Catholic Primary School", area:"Hounslow", type:"Roman Catholic",
-    rwm:93, hs:32, read:112, maths:113 },
+    rwm:93, hs:32, read:112, maths:113, pe:98.8, ph:98.7, pr:99.1, pm:99.7, lh:86.5, lr:100, lm:100 },
   { name:"Our Lady of Lourdes RC Primary School", area:"Redbridge", type:"Roman Catholic",
-    rwm:94, hs:38, read:113, maths:112 },
+    rwm:94, hs:38, read:113, maths:112, pe:99.1, ph:99.6, pr:99.7, pm:99.3, lh:100, lr:100, lm:93.3 },
   { name:"Merton Park Primary School", area:"Merton", type:"Community",
-    rwm:93, hs:33, read:112, maths:112 },
+    rwm:93, hs:33, read:112, maths:112, pe:98.8, ph:99.0, pr:99.1, pm:99.3, lh:75.0, lr:81.8, lm:91.7 },
   { name:"Nishkam School West London", area:"Hounslow", type:"Sikh",
-    rwm:95, hs:36, read:111, maths:113 },
+    rwm:95, hs:36, read:111, maths:113, pe:99.2, ph:99.4, pr:97.6, pm:99.7, lh:97.3, lr:90.9, lm:100 },
   { name:"Manor Park Primary Academy", area:"Sutton", type:"Academy",
-    rwm:87, hs:31, read:112, maths:112 },
+    rwm:87, hs:31, read:112, maths:112, pe:95.6, ph:98.5, pr:99.1, pm:99.3, lh:58.5, lr:100, lm:87.5 },
   { name:"Lift Trinity", area:"Haringey", type:"Academy",
-    rwm:98, hs:35, read:111, maths:113 },
+    rwm:98, hs:35, read:111, maths:113, pe:99.6, ph:99.3, pr:97.6, pm:99.7, lh:91.7, lr:91.7, lm:100 },
   { name:"St Mary's CofE Primary School", area:"Waltham Forest", type:"CofE",
-    rwm:96, hs:36, read:111, maths:113 },
+    rwm:96, hs:36, read:111, maths:113, pe:99.4, ph:99.4, pr:97.6, pm:99.7, lh:97.3, lr:80.0, lm:92.9 },
   { name:"Judith Kerr Primary School", area:"Southwark", type:"Foundation",
-    rwm:86, hs:27, read:113, maths:111 },
+    rwm:86, hs:27, read:113, maths:111, pe:94.8, ph:97.0, pr:99.7, pm:98.5, lh:65.9, lr:100, lm:100 },
   { name:"Vicarage Primary School", area:"Newham", type:"Academy",
-    rwm:88, hs:25, read:110, maths:114 },
+    rwm:88, hs:25, read:110, maths:114, pe:96.4, ph:96.1, pr:94.4, pm:99.9, lh:67.6, lr:90.9, lm:100 },
   { name:"Wanstead Church School", area:"Redbridge", type:"CofE",
-    rwm:96, hs:17, read:113, maths:111 },
+    rwm:96, hs:17, read:113, maths:111, pe:99.4, ph:87.5, pr:99.7, pm:98.5, lh:44.7, lr:100, lm:90.0 },
   { name:"Archdeacon Cambridge's Church of England Primary School", area:"Richmond upon Thames", type:"CofE",
-    rwm:84, hs:33, read:113, maths:111 },
+    rwm:84, hs:33, read:113, maths:111, pe:93.2, ph:99.0, pr:99.7, pm:98.5, lh:75.7, lr:90.9, lm:84.6 },
   { name:"St Winefride's RC Primary School", area:"Newham", type:"Roman Catholic",
-    rwm:82, hs:15, read:112, maths:112 },
+    rwm:82, hs:15, read:112, maths:112, pe:90.6, ph:83.9, pr:99.1, pm:99.3, lh:40.5, lr:100, lm:92.0 },
   { name:"Southwold Primary School", area:"Hackney", type:"Community",
-    rwm:91, hs:32, read:113, maths:111 },
+    rwm:91, hs:32, read:113, maths:111, pe:98.1, ph:98.7, pr:99.7, pm:98.5, lh:97.0, lr:100, lm:100 },
   { name:"Courtland School", area:"Barnet", type:"Community",
-    rwm:97, hs:21, read:112, maths:112 },
+    rwm:97, hs:21, read:112, maths:112, pe:99.5, ph:93.2, pr:99.1, pm:99.3, lh:58.3, lr:92.9, lm:91.7 },
   { name:"Iqra Primary School", area:"Lambeth", type:"Muslim",
-    rwm:97, hs:21, read:110, maths:114 },
+    rwm:97, hs:21, read:110, maths:114, pe:99.5, ph:93.2, pr:94.4, pm:99.9, lh:63.6, lr:76.9, lm:100 },
   { name:"Sheringdale Primary School", area:"Wandsworth", type:"Community",
-    rwm:95, hs:51, read:112, maths:112 },
+    rwm:95, hs:51, read:112, maths:112, pe:99.2, ph:100.0, pr:99.1, pm:99.3, lh:100, lr:90.5, lm:100 },
   { name:"St Elphege's RC Junior School", area:"Sutton", type:"Roman Catholic",
-    rwm:92, hs:39, read:111, maths:112 },
+    rwm:92, hs:39, read:111, maths:112, pe:98.4, ph:99.7, pr:97.6, pm:99.3, lh:73.6, lr:95.0, lm:87.5 },
   { name:"St Teresa's Catholic Primary School", area:"Merton", type:"Roman Catholic",
-    rwm:77, hs:15, read:110, maths:113 },
+    rwm:77, hs:15, read:110, maths:113, pe:82.2, ph:83.9, pr:94.4, pm:99.7, lh:34.1, lr:63.6, lm:100 },
   { name:"Deanesfield Primary School", area:"Hillingdon", type:"Community",
-    rwm:87, hs:27, read:112, maths:111 },
+    rwm:87, hs:27, read:112, maths:111, pe:95.6, ph:97.0, pr:99.1, pm:98.5, lh:100, lr:100, lm:100 },
   { name:"Holy Family Catholic Primary School", area:"Ealing", type:"Roman Catholic",
-    rwm:80, hs:33, read:111, maths:112 },
+    rwm:80, hs:33, read:111, maths:112, pe:87.8, ph:99.0, pr:97.6, pm:99.3, lh:75.0, lr:85.7, lm:80.0 },
   { name:"Tollgate Primary School", area:"Newham", type:"Academy",
-    rwm:91, hs:37, read:112, maths:111 },
+    rwm:91, hs:37, read:112, maths:111, pe:98.1, ph:99.5, pr:99.1, pm:98.5, lh:100, lr:100, lm:88.0 },
   { name:"St Edward's Catholic Primary School", area:"Westminster", type:"Roman Catholic",
-    rwm:71, hs:4, read:111, maths:112 },
+    rwm:71, hs:4, read:111, maths:112, pe:68.6, ph:35.7, pr:97.6, pm:99.3, lh:10.8, lr:75.0, lm:70.6 },
   { name:"St Joseph's Catholic Primary School", area:"Islington", type:"Roman Catholic",
-    rwm:89, hs:29, read:111, maths:112 },
+    rwm:89, hs:29, read:111, maths:112, pe:97.0, ph:97.8, pr:97.6, pm:99.3, lh:72.5, lr:94.7, lm:100 },
   { name:"Christ Church Bentinck CofE Primary School", area:"Westminster", type:"CofE",
-    rwm:78, hs:13, read:111, maths:112 },
+    rwm:78, hs:13, read:111, maths:112, pe:84.3, ph:78.0, pr:97.6, pm:99.3, lh:35.1, lr:75.0, lm:70.6 },
   { name:"St Joseph's Roman Catholic Primary School", area:"Brent", type:"Roman Catholic",
-    rwm:91, hs:12, read:113, maths:110 },
+    rwm:91, hs:12, read:113, maths:110, pe:98.1, ph:74.3, pr:99.7, pm:96.6, lh:34.3, lr:100, lm:96.0 },
   { name:"Belmont Primary School", area:"Hounslow", type:"Community",
-    rwm:84, hs:29, read:112, maths:111 },
+    rwm:84, hs:29, read:112, maths:111, pe:93.2, ph:97.8, pr:99.1, pm:98.5, lh:78.4, lr:100, lm:88.2 },
   { name:"Ark Franklin Primary Academy", area:"Brent", type:"Academy",
-    rwm:96, hs:35, read:112, maths:111 },
+    rwm:96, hs:35, read:112, maths:111, pe:99.4, ph:99.3, pr:99.1, pm:98.5, lh:100, lr:96.4, lm:100 },
   { name:"Cleves Primary School", area:"Newham", type:"Academy",
-    rwm:84, hs:20, read:111, maths:112 },
+    rwm:84, hs:20, read:111, maths:112, pe:93.2, ph:92.1, pr:97.6, pm:99.3, lh:54.1, lr:95.5, lm:92.0 },
   { name:"Rhodes Avenue Primary School", area:"Haringey", type:"Community",
-    rwm:92, hs:30, read:112, maths:111 },
+    rwm:92, hs:30, read:112, maths:111, pe:98.4, ph:98.1, pr:99.1, pm:98.5, lh:77.8, lr:100, lm:86.7 },
   { name:"Elmhurst Primary School", area:"Newham", type:"Academy",
-    rwm:92, hs:27, read:110, maths:113 },
+    rwm:92, hs:27, read:110, maths:113, pe:98.4, ph:97.0, pr:94.4, pm:99.7, lh:73.0, lr:90.9, lm:96.0 },
   { name:"St Antony's Catholic Primary School", area:"Newham", type:"Roman Catholic",
-    rwm:97, hs:36, read:111, maths:112 },
+    rwm:97, hs:36, read:111, maths:112, pe:99.5, ph:99.4, pr:97.6, pm:99.3, lh:97.3, lr:95.5, lm:92.0 },
   { name:"Churchfields Junior School", area:"Redbridge", type:"Community",
-    rwm:91, hs:38, read:112, maths:111 },
+    rwm:91, hs:38, read:112, maths:111, pe:98.1, ph:99.6, pr:99.1, pm:98.5, lh:100, lr:96.3, lm:90.0 },
   { name:"Menorah Foundation School", area:"Barnet", type:"Jewish",
-    rwm:96, hs:9, read:111, maths:112 },
+    rwm:96, hs:9, read:111, maths:112, pe:99.4, ph:61.8, pr:97.6, pm:99.3, lh:25.0, lr:85.7, lm:91.7 },
   { name:"Newton Farm Nursery, Infant and Junior School", area:"Harrow", type:"Community",
-    rwm:83, hs:28, read:111, maths:112 },
+    rwm:83, hs:28, read:111, maths:112, pe:92.0, ph:97.4, pr:97.6, pm:99.3, lh:100, lr:100, lm:100 },
   { name:"Lift Noel Park", area:"Haringey", type:"Academy",
-    rwm:92, hs:26, read:112, maths:111 },
+    rwm:92, hs:26, read:112, maths:111, pe:98.4, ph:96.6, pr:99.1, pm:98.5, lh:66.7, lr:100, lm:86.7 },
   { name:"Sheen Mount Primary School", area:"Richmond upon Thames", type:"Community",
-    rwm:82, hs:27, read:111, maths:112 },
+    rwm:82, hs:27, read:111, maths:112, pe:90.6, ph:97.0, pr:97.6, pm:99.3, lh:59.5, lr:72.7, lm:92.3 },
   { name:"Gillespie Primary School", area:"Islington", type:"Community",
-    rwm:89, hs:26, read:112, maths:111 },
+    rwm:89, hs:26, read:112, maths:111, pe:97.0, ph:96.6, pr:99.1, pm:98.5, lh:65.0, lr:100, lm:94.1 },
   { name:"Our Lady of Grace Catholic Primary School", area:"Greenwich", type:"Roman Catholic",
-    rwm:87, hs:45, read:111, maths:112 },
+    rwm:87, hs:45, read:111, maths:112, pe:95.6, ph:99.9, pr:97.6, pm:99.3, lh:100, lr:91.7, lm:100 },
   { name:"Eden Primary", area:"Haringey", type:"Jewish",
-    rwm:93, hs:21, read:112, maths:111 },
+    rwm:93, hs:21, read:112, maths:111, pe:98.8, ph:93.2, pr:99.1, pm:98.5, lh:52.8, lr:100, lm:86.7 },
   { name:"Fox Primary School", area:"Kensington & Chelsea", type:"Community",
-    rwm:91, hs:42, read:111, maths:112 },
+    rwm:91, hs:42, read:111, maths:112, pe:98.1, ph:99.8, pr:97.6, pm:99.3, lh:100, lr:72.7, lm:83.3 },
   { name:"Essendine Primary School", area:"Westminster", type:"Community",
-    rwm:84, hs:37, read:111, maths:112 },
+    rwm:84, hs:37, read:111, maths:112, pe:93.2, ph:99.5, pr:97.6, pm:99.3, lh:100, lr:75.0, lm:70.6 },
   { name:"Ark Isaac Newton Academy", area:"Redbridge", type:"Academy",
-    rwm:92, hs:32, read:111, maths:111 },
+    rwm:92, hs:32, read:111, maths:111, pe:98.4, ph:98.7, pr:97.6, pm:98.5, lh:84.2, lr:92.6, lm:90.0 },
   { name:"The Blue School CofE Primary", area:"Hounslow", type:"CofE",
-    rwm:88, hs:18, read:112, maths:110 },
+    rwm:88, hs:18, read:112, maths:110, pe:96.4, ph:89.4, pr:99.1, pm:96.6, lh:48.6, lr:100, lm:82.4 },
   { name:"St Joseph's Catholic Primary School", area:"Kensington & Chelsea", type:"Roman Catholic",
-    rwm:93, hs:28, read:112, maths:110 },
+    rwm:93, hs:28, read:112, maths:110, pe:98.8, ph:97.4, pr:99.1, pm:96.6, lh:66.7, lr:81.8, lm:66.7 },
   { name:"Holy Ghost Catholic Primary School", area:"Wandsworth", type:"Roman Catholic",
-    rwm:86, hs:29, read:111, maths:111 },
+    rwm:86, hs:29, read:111, maths:111, pe:94.8, ph:97.8, pr:97.6, pm:98.5, lh:56.9, lr:85.7, lm:96.2 },
   { name:"Birkbeck Primary School", area:"Bexley", type:"Community",
-    rwm:85, hs:10, read:111, maths:111 },
+    rwm:85, hs:10, read:111, maths:111, pe:93.9, ph:66.5, pr:97.6, pm:98.5, lh:22.2, lr:95.5, lm:92.3 },
   { name:"Enfield Heights Academy", area:"Enfield", type:"Foundation",
-    rwm:93, hs:22, read:110, maths:112 },
+    rwm:93, hs:22, read:110, maths:112, pe:98.8, ph:94.0, pr:94.4, pm:99.3, lh:68.8, lr:92.9, lm:100 },
   { name:"St Joseph's Catholic Primary School", area:"Barking & Dagenham", type:"Roman Catholic",
-    rwm:83, hs:28, read:109, maths:113 },
+    rwm:83, hs:28, read:109, maths:113, pe:92.0, ph:97.4, pr:88.8, pm:99.7, lh:100, lr:93.8, lm:100 },
   { name:"Christ Church Primary School, Hampstead", area:"Camden", type:"CofE",
-    rwm:88, hs:56, read:111, maths:111 },
+    rwm:88, hs:56, read:111, maths:111, pe:96.4, ph:100.0, pr:97.6, pm:98.5, lh:100, lr:81.8, lm:90.0 },
   { name:"Cheam Fields Primary Academy", area:"Sutton", type:"Academy",
-    rwm:84, hs:27, read:111, maths:111 },
+    rwm:84, hs:27, read:111, maths:111, pe:93.2, ph:97.0, pr:97.6, pm:98.5, lh:50.9, lr:95.0, lm:83.3 },
   { name:"Coldfall Primary School", area:"Haringey", type:"Community",
-    rwm:84, hs:31, read:112, maths:110 },
+    rwm:84, hs:31, read:112, maths:110, pe:93.2, ph:98.5, pr:99.1, pm:96.6, lh:80.6, lr:100, lm:80.0 },
   { name:"Hasmonean Primary School", area:"Barnet", type:"Jewish",
-    rwm:90, hs:10, read:112, maths:110 },
+    rwm:90, hs:10, read:112, maths:110, pe:97.6, ph:66.5, pr:99.1, pm:96.6, lh:27.8, lr:92.9, lm:75.0 },
   { name:"Trinity St Mary's CofE Primary School", area:"Wandsworth", type:"CofE",
-    rwm:71, hs:19, read:110, maths:112 },
+    rwm:71, hs:19, read:110, maths:112, pe:68.6, ph:90.8, pr:94.4, pm:99.3, lh:37.3, lr:81.0, lm:100 },
   { name:"St James' Roman Catholic Primary School", area:"Bromley", type:"Roman Catholic",
-    rwm:94, hs:31, read:110, maths:112 },
+    rwm:94, hs:31, read:110, maths:112, pe:99.1, ph:98.5, pr:94.4, pm:99.3, lh:83.8, lr:84.2, lm:95.2 },
   { name:"St Peter's Primary School", area:"Hammersmith & Fulham", type:"CofE",
-    rwm:90, hs:40, read:111, maths:111 },
+    rwm:90, hs:40, read:111, maths:111, pe:97.6, ph:99.8, pr:97.6, pm:98.5, lh:90.9, lr:69.2, lm:69.2 },
   { name:"The London Oratory School", area:"Hammersmith & Fulham", type:"Roman Catholic",
-    rwm:100, hs:15, read:111, maths:111 },
+    rwm:100, hs:15, read:111, maths:111, pe:99.8, ph:83.9, pr:97.6, pm:98.5, lh:34.1, lr:69.2, lm:69.2 },
   { name:"Monkfrith Primary School", area:"Barnet", type:"Community",
-    rwm:88, hs:25, read:111, maths:111 },
+    rwm:88, hs:25, read:111, maths:111, pe:96.4, ph:96.1, pr:97.6, pm:98.5, lh:69.4, lr:85.7, lm:83.3 },
   { name:"Monken Hadley CofE Primary School", area:"Barnet", type:"CofE",
-    rwm:88, hs:25, read:110, maths:112 },
+    rwm:88, hs:25, read:110, maths:112, pe:96.4, ph:96.1, pr:94.4, pm:99.3, lh:69.4, lr:78.6, lm:91.7 },
   { name:"St Paul's CofE Primary School NW7", area:"Barnet", type:"CofE",
-    rwm:87, hs:20, read:112, maths:110 },
+    rwm:87, hs:20, read:112, maths:110, pe:95.6, ph:92.1, pr:99.1, pm:96.6, lh:55.6, lr:92.9, lm:75.0 },
   { name:"Warren Road Primary School", area:"Bromley", type:"Academy",
-    rwm:76, hs:22, read:111, maths:111 },
+    rwm:76, hs:22, read:111, maths:111, pe:80.1, ph:94.0, pr:97.6, pm:98.5, lh:59.5, lr:89.5, lm:90.5 },
   { name:"Crofton Junior School", area:"Bromley", type:"Academy",
-    rwm:91, hs:37, read:112, maths:110 },
+    rwm:91, hs:37, read:112, maths:110, pe:98.1, ph:99.5, pr:99.1, pm:96.6, lh:100, lr:94.7, lm:85.7 },
   { name:"Oasis Academy Byron", area:"Croydon", type:"Academy",
-    rwm:89, hs:14, read:111, maths:111 },
+    rwm:89, hs:14, read:111, maths:111, pe:97.0, ph:81.6, pr:97.6, pm:98.5, lh:41.2, lr:93.3, lm:92.0 },
   { name:"Hampstead Parochial Church of England Primary School", area:"Camden", type:"CofE",
-    rwm:85, hs:42, read:111, maths:111 },
+    rwm:85, hs:42, read:111, maths:111, pe:93.9, ph:99.8, pr:97.6, pm:98.5, lh:75.0, lr:81.8, lm:90.0 },
   { name:"Rosetta Primary School", area:"Newham", type:"Academy",
-    rwm:91, hs:26, read:112, maths:110 },
+    rwm:91, hs:26, read:112, maths:110, pe:98.1, ph:96.6, pr:99.1, pm:96.6, lh:70.3, lr:100, lm:84.0 },
 
   // ── Independent (illustrative estimates — not in DfE state tables) ──
   { name:"Westminster Under School",         area:"Westminster", type:"Independent · Prep", priv:true,
-    rwm:96, hs:42, read:114, maths:113 },
+    rwm:96, hs:42, read:114, maths:113, pe:99.4, ph:99.8, pr:99.9, pm:99.7, lh:100, lr:100, lm:76.5 },
   { name:"King's College Junior School",     area:"Merton",      type:"Independent · Prep", priv:true,
-    rwm:95, hs:40, read:114, maths:112 },
+    rwm:95, hs:40, read:114, maths:112, pe:99.2, ph:99.8, pr:99.9, pm:99.3, lh:90.9, lr:100, lm:91.7 },
   { name:"Dulwich College Junior School",    area:"Southwark",   type:"Independent · Prep", priv:true,
-    rwm:94, hs:38, read:113, maths:112 },
+    rwm:94, hs:38, read:113, maths:112, pe:99.1, ph:99.6, pr:99.7, pm:99.3, lh:92.7, lr:100, lm:100 },
   { name:"Thomas's Battersea",               area:"Wandsworth",  type:"Independent · Prep", priv:true,
-    rwm:93, hs:35, read:113, maths:111 },
+    rwm:93, hs:35, read:113, maths:111, pe:98.8, ph:99.3, pr:99.7, pm:98.5, lh:68.6, lr:95.2, lm:96.2 },
 ];
 
 // ─────────── Phase → region → schools ───────────
@@ -1500,20 +1541,25 @@ function sqs(s) {
   ).toFixed(1);
 }
 
-function pqs(s) {
-  const n = (v,a) => (v/a)*100;
-  return (
-    n(s.rwm,   PRI_ENG.rwm)   * 0.45 +
-    n(s.hs,    PRI_ENG.hs)    * 0.15 +
-    n(s.read,  PRI_ENG.read)  * 0.20 +
-    n(s.maths, PRI_ENG.maths) * 0.20
-  ).toFixed(1);
-}
+// Primary ranking indices — all percentile-based, scored 0–100.
+//  pe/ph/pr/pm = national percentile (vs every England KS2 school) for
+//  RWM-expected / RWM-higher / reading SS / maths SS.
+//  lh/lr/lm   = each school's higher/reading/maths min-max normalised within its own LA.
+const PRI_INDICES = {
+  api:        { label:"Academic Performance Index", short:"API", desc:"Overall attainment vs all England primaries",
+                fn: s => 0.40*s.pe + 0.40*s.ph + 0.10*s.pr + 0.10*s.pm },
+  grammar:    { label:"Grammar School Readiness",   short:"GRI", desc:"Stretch at the top end (higher-standard led)",
+                fn: s => 0.50*s.ph + 0.25*s.pr + 0.25*s.pm },
+  elevenplus: { label:"11+ Readiness (vs LA)",      short:"11+", desc:"Standing within the school's own local authority",
+                fn: s => 0.50*s.lh + 0.25*s.lr + 0.25*s.lm },
+};
+let currentPriIndex = 'api';
+function pqs(s) { return PRI_INDICES[currentPriIndex].fn(s).toFixed(1); }
 
 // Per-phase config: score fn, badge label, benchmark, bar metric, and columns.
 const PHASES = {
   secondary: {
-    score: sqs, badge: "SQS ★", benchmark: benchmark, barField: "a8",
+    score: sqs, style: sqsStyle, badge: "SQS ★", benchmark: benchmark, barField: "a8",
     cols: [
       { head: "Attainment 8",       bar: "a8", fmt: s => s.a8 },
       { head: "Gr.5+ Eng &amp; Maths", fmt: s => s.em + "%" },
@@ -1522,7 +1568,7 @@ const PHASES = {
     ],
   },
   primary: {
-    score: pqs, badge: "PQS ★", benchmark: priBenchmark, barField: "rwm",
+    score: pqs, style: pctStyle, badge: "API ★", benchmark: priBenchmark, barField: "rwm",
     cols: [
       { head: "RWM Expected",  bar: "rwm", fmt: s => s.rwm + "%" },
       { head: "RWM Higher",         fmt: s => s.hs + "%" },
@@ -1538,6 +1584,16 @@ function sqsStyle(v) {
   if (v >= 160) return {bg:"#1a2e1a",border:"#15803d",col:"#86efac"};
   if (v >= 140) return {bg:"#2a2410",border:"#854d0e",col:"#fde68a"};
   if (v >= 120) return {bg:"#241a0f",border:"#92400e",col:"#fb923c"};
+  return {bg:"#1c1010",border:"#7f1d1d",col:"#f87171"};
+}
+
+// Primary indices are 0–100 (percentile/normalised), so they use their own bands.
+function pctStyle(v) {
+  v = parseFloat(v);
+  if (v >= 80) return {bg:"#14281d",border:"#166534",col:"#4ade80"};
+  if (v >= 65) return {bg:"#1a2e1a",border:"#15803d",col:"#86efac"};
+  if (v >= 50) return {bg:"#2a2410",border:"#854d0e",col:"#fde68a"};
+  if (v >= 35) return {bg:"#241a0f",border:"#92400e",col:"#fb923c"};
   return {bg:"#1c1010",border:"#7f1d1d",col:"#f87171"};
 }
 
@@ -1589,6 +1645,7 @@ function render() {
 
   regionTitle.textContent = `${data.label} · ${phaseData.label}`;
   filterCount.textContent = `${filtered.length} of ${data.schools.length} schools`;
+  if (currentPhase === 'primary') document.getElementById('priIndexDesc').textContent = PRI_INDICES[currentPriIndex].desc;
 
   // Keep each tab's sub-label in sync with the current phase's school count.
   document.querySelectorAll('.tab-sub[data-city]').forEach(el => {
@@ -1596,11 +1653,12 @@ function render() {
     el.textContent = `${boroughs} · ${phaseData.cities[el.dataset.city].schools.length} schools`;
   });
 
-  // Build the header for the active phase.
+  // Build the header for the active phase (primary badge follows the chosen index).
+  const badge = currentPhase === 'primary' ? PRI_INDICES[currentPriIndex].short + ' ★' : phaseCfg.badge;
   thead.innerHTML = `<tr>
       <th>#</th>
       <th style="text-align:left">School</th>
-      <th>${phaseCfg.badge}</th>
+      <th>${badge}</th>
       ${phaseCfg.cols.map(c => `<th>${c.head}</th>`).join('')}
     </tr>`;
 
@@ -1609,7 +1667,7 @@ function render() {
   sorted.forEach(s => {
     if (!s.benchmark) rank++;
     const sc = phaseCfg.score(s);
-    const st = sqsStyle(sc);
+    const st = phaseCfg.style(sc);
     const cells = phaseCfg.cols.map(c => {
       if (c.bar) {
         const barW = Math.round((s[c.bar] / maxBar) * 60);
@@ -1625,7 +1683,7 @@ function render() {
         <div class="school-meta">${s.area} · ${s.type}</div>
       </td>
       <td>${s.benchmark
-          ? '<span class="mono" style="color:#4b5563">100.0</span>'
+          ? `<span class="mono" style="color:#4b5563">${sc}</span>`
           : `<span class="sqs-badge" style="background:${st.bg};border:1px solid ${st.border};color:${st.col}">${sc}</span>`}</td>
       ${cells}
     </tr>`;
@@ -1653,6 +1711,11 @@ document.getElementById('phaseSwitch').addEventListener('click', e => {
 });
 
 typeFilter.addEventListener('change', render);
+
+document.getElementById('priIndexSelect').addEventListener('change', e => {
+  currentPriIndex = e.target.value;
+  render();
+});
 
 render();
 </script>
