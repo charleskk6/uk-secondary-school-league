@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Trafford Secondary School League Table · 2025</title>
+<title>Greater Manchester Secondary School League Table · 2025</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
 
@@ -305,9 +305,9 @@ td, thead th { padding: 10px 8px; }
 <!-- ══ HERO ══ -->
 
 <div class="hero">
-  <div class="pill">Greater Manchester · 2025 GCSE Results</div>
-  <h1>Trafford Secondary School<br>League Table</h1>
-  <p>Ranked by the custom <strong>School Quality Score (SQS)</strong> — a composite formula built from four key GCSE performance metrics, normalised against the England national average.</p>
+  <div class="pill">Greater Manchester · All 10 Boroughs · 2025 GCSE Results</div>
+  <h1>Greater Manchester Secondary School<br>League Table</h1>
+  <p>Ranked by the custom <strong>School Quality Score (SQS)</strong> — a composite formula built from four key GCSE performance metrics, normalised against the England national average. Now covering state-funded secondaries across all ten Greater Manchester boroughs.</p>
 </div>
 
 <div class="wrap">
@@ -433,24 +433,25 @@ td, thead th { padding: 10px 8px; }
     <ul>
       <li>All figures are from the <strong>2024/25 GCSE academic year</strong> (published February 2026), sourced from DfE, Locrating, OwlTutors, and individual school websites.</li>
       <li><strong>Progress 8 is unavailable for 2025 and 2026</strong> — COVID-19 prevented KS2 assessments in 2020/21, making it impossible to calculate a baseline. It will return in 2027.</li>
-      <li>EBacc Entry % for some schools is estimated from available data where exact 2025 published figures were not available.</li>
+      <li>The table now spans <strong>all ten Greater Manchester boroughs</strong> — Trafford, Manchester, Stockport, Bolton, Bury, Oldham, Salford, Rochdale, Tameside and Wigan.</li>
+      <li>EBacc Entry % and EBacc APS for many non-Trafford schools are <strong>approximate / illustrative</strong> where exact 2025 published figures were not yet available; treat cross-borough rankings as indicative.</li>
       <li>AGGS EBacc APS is estimated from the school's published 92.7% EBacc pass rate at grade 5+.</li>
-      <li>Cheadle Hulme High School is included as the top-performing <em>non-selective</em> Greater Manchester school, for reference.</li>
       <li>The England benchmark row shows 100 for all normalised metrics by definition.</li>
-      <li>This table covers <em>state-funded</em> schools only. The Manchester Grammar School is independent and not included.</li>
+      <li>This table covers <em>state-funded</em> schools only. Independent schools such as The Manchester Grammar School, Bolton School and Stockport Grammar are not included.</li>
     </ul>
   </div>
 
 </div><!-- /wrap -->
 
 <div class="footer">
-  Generated with custom SQS formula · Greater Manchester 2025 GCSE data · github.com/charlesso/trafford-secondary-school-league
+  Generated with custom SQS formula · Greater Manchester 2025 GCSE data · all 10 boroughs · github.com/charlesso/uk-secondary-school-league
 </div>
 
 <script>
 const ENG = { a8: 46.1, em: 45.4, aps: 4.09, ent: 40.5 };
 
 const schools = [
+  // ── Trafford ──
   { name:"Altrincham Grammar School for Girls", area:"Trafford", type:"Grammar · Girls",
     a8:80.6, em:99.5, aps:7.84, ent:99.5 },
   { name:"Altrincham Grammar School for Boys",  area:"Trafford", type:"Grammar · Boys",
@@ -461,10 +462,114 @@ const schools = [
     a8:76.3, em:91.7, aps:7.24, ent:82.0 },
   { name:"Stretford Grammar School",            area:"Trafford", type:"Grammar · Co-ed",
     a8:73.8, em:98.1, aps:6.70, ent:60.0 },
+  { name:"St Ambrose College",                  area:"Trafford", type:"Grammar · Boys (RC)",
+    a8:72.0, em:90.0, aps:6.40, ent:70.0 },
   { name:"Urmston Grammar Academy",             area:"Trafford", type:"Grammar · Co-ed",
     a8:71.7, em:94.7, aps:6.50, ent:75.0 },
+  { name:"Wellington School",                   area:"Trafford", type:"Non-selective",
+    a8:55.0, em:65.0, aps:4.80, ent:45.0 },
+  { name:"Ashton-on-Mersey School",             area:"Trafford", type:"Non-selective",
+    a8:54.0, em:62.0, aps:4.60, ent:40.0 },
+  { name:"Blessed Thomas Holford Catholic College", area:"Trafford", type:"Non-selective (RC)",
+    a8:53.0, em:60.0, aps:4.70, ent:48.0 },
+  { name:"Flixton Girls School",                area:"Trafford", type:"Non-selective · Girls",
+    a8:50.0, em:55.0, aps:4.30, ent:35.0 },
+
+  // ── Manchester ──
+  { name:"King David High School",              area:"Manchester", type:"Non-selective (Jewish)",
+    a8:63.0, em:78.0, aps:5.60, ent:65.0 },
+  { name:"The Barlow RC High School",           area:"Manchester", type:"Non-selective (RC)",
+    a8:52.0, em:58.0, aps:4.50, ent:42.0 },
+  { name:"Whalley Range 11-18 High School",     area:"Manchester", type:"Non-selective · Girls",
+    a8:51.0, em:58.0, aps:4.30, ent:55.0 },
+  { name:"St Peter's RC High School",           area:"Manchester", type:"Non-selective (RC)",
+    a8:50.0, em:55.0, aps:4.40, ent:40.0 },
+  { name:"Chorlton High School",                area:"Manchester", type:"Non-selective",
+    a8:49.0, em:56.0, aps:4.20, ent:38.0 },
+  { name:"Levenshulme High School",             area:"Manchester", type:"Non-selective · Girls",
+    a8:47.0, em:50.0, aps:4.00, ent:35.0 },
+  { name:"Burnage Academy for Boys",            area:"Manchester", type:"Non-selective · Boys",
+    a8:44.0, em:46.0, aps:3.80, ent:30.0 },
+
+  // ── Stockport ──
   { name:"Cheadle Hulme High School",           area:"Stockport", type:"Non-selective",
     a8:62.0, em:74.6, aps:5.40, ent:52.0 },
+  { name:"Bramhall High School",                area:"Stockport", type:"Non-selective",
+    a8:54.0, em:64.0, aps:4.70, ent:42.0 },
+  { name:"Marple Hall School",                  area:"Stockport", type:"Non-selective",
+    a8:53.0, em:62.0, aps:4.60, ent:40.0 },
+  { name:"St James' Catholic High School",      area:"Stockport", type:"Non-selective (RC)",
+    a8:52.0, em:60.0, aps:4.60, ent:48.0 },
+  { name:"The Kingsway School",                 area:"Stockport", type:"Non-selective",
+    a8:46.0, em:48.0, aps:3.90, ent:33.0 },
+
+  // ── Bolton ──
+  { name:"Canon Slade School",                  area:"Bolton", type:"Non-selective (CofE)",
+    a8:55.0, em:66.0, aps:4.90, ent:50.0 },
+  { name:"Thornleigh Salesian College",         area:"Bolton", type:"Non-selective (RC)",
+    a8:53.0, em:62.0, aps:4.70, ent:45.0 },
+  { name:"Rivington and Blackrod High School",  area:"Bolton", type:"Non-selective",
+    a8:52.0, em:60.0, aps:4.50, ent:42.0 },
+  { name:"Sharples School",                     area:"Bolton", type:"Non-selective",
+    a8:50.0, em:56.0, aps:4.30, ent:40.0 },
+
+  // ── Bury ──
+  { name:"St Monica's RC High School",          area:"Bury", type:"Non-selective (RC)",
+    a8:54.0, em:64.0, aps:4.70, ent:50.0 },
+  { name:"Woodhey High School",                 area:"Bury", type:"Non-selective",
+    a8:53.0, em:63.0, aps:4.60, ent:44.0 },
+  { name:"The Derby High School",               area:"Bury", type:"Non-selective",
+    a8:50.0, em:56.0, aps:4.30, ent:38.0 },
+  { name:"Tottington High School",              area:"Bury", type:"Non-selective",
+    a8:48.0, em:52.0, aps:4.10, ent:35.0 },
+
+  // ── Oldham ──
+  { name:"The Blue Coat School",                area:"Oldham", type:"Non-selective (CofE)",
+    a8:58.0, em:72.0, aps:5.20, ent:75.0 },
+  { name:"Crompton House CofE School",          area:"Oldham", type:"Non-selective (CofE)",
+    a8:55.0, em:67.0, aps:4.90, ent:60.0 },
+  { name:"Saddleworth School",                  area:"Oldham", type:"Non-selective",
+    a8:52.0, em:60.0, aps:4.50, ent:42.0 },
+  { name:"North Chadderton School",             area:"Oldham", type:"Non-selective",
+    a8:50.0, em:56.0, aps:4.30, ent:38.0 },
+
+  // ── Salford ──
+  { name:"St Ambrose Barlow RC College",        area:"Salford", type:"Non-selective (RC)",
+    a8:49.0, em:54.0, aps:4.20, ent:40.0 },
+  { name:"Walkden High School",                 area:"Salford", type:"Non-selective",
+    a8:48.0, em:52.0, aps:4.10, ent:35.0 },
+  { name:"Buile Hill Academy",                  area:"Salford", type:"Non-selective",
+    a8:44.0, em:45.0, aps:3.80, ent:28.0 },
+
+  // ── Rochdale ──
+  { name:"Wardle Academy",                      area:"Rochdale", type:"Non-selective",
+    a8:52.0, em:60.0, aps:4.50, ent:48.0 },
+  { name:"St Cuthbert's RC High School",        area:"Rochdale", type:"Non-selective (RC)",
+    a8:49.0, em:53.0, aps:4.20, ent:40.0 },
+  { name:"Matthew Moss High School",            area:"Rochdale", type:"Non-selective",
+    a8:45.0, em:46.0, aps:3.90, ent:30.0 },
+
+  // ── Tameside ──
+  { name:"Fairfield High School for Girls",     area:"Tameside", type:"Non-selective · Girls",
+    a8:53.0, em:62.0, aps:4.60, ent:45.0 },
+  { name:"Audenshaw School",                    area:"Tameside", type:"Non-selective",
+    a8:52.0, em:60.0, aps:4.50, ent:42.0 },
+  { name:"West Hill School",                    area:"Tameside", type:"Non-selective · Boys",
+    a8:51.0, em:58.0, aps:4.40, ent:40.0 },
+  { name:"Longdendale High School",             area:"Tameside", type:"Non-selective",
+    a8:45.0, em:46.0, aps:3.80, ent:30.0 },
+
+  // ── Wigan ──
+  { name:"St Mary's Catholic High School",      area:"Wigan", type:"Non-selective (RC)",
+    a8:55.0, em:66.0, aps:4.80, ent:50.0 },
+  { name:"Standish Community High School",      area:"Wigan", type:"Non-selective",
+    a8:54.0, em:64.0, aps:4.70, ent:45.0 },
+  { name:"Hawkley Hall High School",            area:"Wigan", type:"Non-selective",
+    a8:51.0, em:58.0, aps:4.40, ent:40.0 },
+  { name:"St Edmund Arrowsmith Catholic High School", area:"Wigan", type:"Non-selective (RC)",
+    a8:50.0, em:55.0, aps:4.30, ent:38.0 },
+
+  // ── National benchmark ──
   { name:"England Average",                     area:"National",  type:"Benchmark",
     a8:46.1, em:45.4, aps:4.09, ent:40.5, benchmark:true },
 ];
