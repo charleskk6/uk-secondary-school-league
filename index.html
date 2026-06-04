@@ -746,7 +746,7 @@ td, thead th { padding: 10px 8px; }
   <div class="search-bar">
     <span class="filter-label">Find</span>
     <div class="search-input-wrap">
-      <input type="search" id="schoolSearch" class="search-input" placeholder="Search school name…" autocomplete="off" spellcheck="false">
+      <input type="search" id="schoolSearch" class="search-input" placeholder="Search name, borough, or tag…" autocomplete="off" spellcheck="false">
       <button type="button" id="schoolSearchClear" class="search-clear" aria-label="Clear search" hidden>×</button>
     </div>
   </div>
@@ -1093,9 +1093,11 @@ async function loadYear(year) {
       return r.json();
     });
     const [sec, pri] = await Promise.all([grab('secondary'), grab('primary')]);
-    // Pre-lowercase names once so per-keystroke search avoids 20k allocations.
-    sec.forEach(s => s._lc = s.name.toLowerCase());
-    pri.forEach(s => s._lc = s.name.toLowerCase());
+    // Pre-lowercase name + area + type into one searchable field so the
+    // per-keystroke filter avoids 20k allocations and matches across all three.
+    const blob = s => (s.name + ' ' + s.area + ' ' + s.type).toLowerCase();
+    sec.forEach(s => s._lc = blob(s));
+    pri.forEach(s => s._lc = blob(s));
     yearCache[year] = { secondary: sec, primary: pri };
   }
   datasets = yearCache[year];
