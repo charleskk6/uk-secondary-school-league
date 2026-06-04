@@ -15,45 +15,57 @@ the full national dataset.
 
 ## Repository contents
 
-| Path                       | Purpose                                                                      |
-| -------------------------- | ---------------------------------------------------------------------------- |
-| `index.html`               | The app. Open it in a browser. Contains the data inlined as JSON.            |
-| `build_data.py`            | Pre-processor — turns the DfE CSVs into the inlined JSON and updates `index.html`. |
-| `england_ks4final.csv`     | DfE raw secondary (KS4) performance table.                                   |
-| `england_ks2final.csv`     | DfE raw primary (KS2) performance table.                                     |
-| `data/secondary.json`      | Debug artifact — same payload that gets inlined into `index.html`.           |
-| `data/primary.json`        | Debug artifact — same payload that gets inlined into `index.html`.           |
+| Path                              | Purpose                                                                      |
+| --------------------------------- | ---------------------------------------------------------------------------- |
+| `index.html`                      | The app. Fetches the active year's data at runtime via a year selector.      |
+| `build_data.py`                   | Pre-processor — turns a year's DfE CSVs into `secondary.json` / `primary.json`. |
+| `england_ks4final.csv`            | DfE raw secondary (KS4) table for the latest year (2024-2025), at repo root. |
+| `england_ks2final.csv`            | DfE raw primary (KS2) table for the latest year (2024-2025), at repo root.   |
+| `data/<year>/secondary.json`      | Generated secondary dataset the page fetches for that academic year.         |
+| `data/<year>/primary.json`        | Generated primary dataset the page fetches for that academic year.           |
+| `data/<year>/england_ks*.csv`     | DfE raw CSVs for earlier years (e.g. `data/2023-2024/`).                      |
+
+Academic years currently built: **2024-2025** and **2023-2024**, switchable
+from the **Academic year** dropdown above the league table.
 
 ---
 
 ## Running the app
 
+The page **fetches** `data/<year>/{secondary,primary}.json`, so it must be
+served over http(s) — opening the file directly from disk will fail on the
+fetch.
+
 ```sh
-open index.html
+python3 -m http.server 8000   # then visit http://localhost:8000/
 ```
 
-That's it. The data is embedded in the file; no fetch, no server, no
-dependencies. Everything runs locally in the browser.
+Deployed on GitHub Pages it works as-is. No build step or dependencies at
+runtime — just static files.
 
 ---
 
-## Updating the data with `build_data.py`
+## Updating / adding a year with `build_data.py`
 
-You only need to run this when the source DfE CSVs change (typically once a
-year, when the new performance tables are published).
+Run this when the source DfE CSVs change (typically once a year, when new
+performance tables are published) or to add an earlier year.
 
 ```sh
-# 1. Download the latest DfE national CSVs and put them at the repo root:
-#      england_ks4final.csv   (KS4 / secondary GCSE)
-#      england_ks2final.csv   (KS2 / primary SATs)
-#
-# 2. Regenerate the inlined data + JSON artifacts:
-python3 build_data.py
+# Latest year — CSVs at repo root -> data/2024-2025/
+python3 build_data.py . data/2024-2025
+
+# An earlier year — CSVs in a folder; OUT_DIR defaults to that folder
+python3 build_data.py data/2023-2024
 ```
+
+Each `data/<year>/` folder holds that year's `england_ks4final.csv` +
+`england_ks2final.csv` and the generated `secondary.json` / `primary.json`.
+To expose a new year in the UI, add it to `YEAR_RESULTS` / `YEAR_LABELS` and
+the `#yearSelect` options in `index.html`.
 
 What it does:
 
-1. **Reads** `england_ks4final.csv` and `england_ks2final.csv`.
+1. **Reads** `england_ks4final.csv` and `england_ks2final.csv` from `SRC_DIR`.
 2. **Filters** to mainstream schools (`RECTYPE == '1'`) with valid scores in
    every input metric. Suppression markers (`SUPP`, `NE`, `NP`, `..`) are
    treated as missing and drop the row.
@@ -63,11 +75,9 @@ What it does:
    present.
 4. **Maps** the DfE LEA code to a borough/area name and tags Greater
    Manchester / Greater London / other.
-5. **Computes** the ranking scores (see *Ranking algorithms* below).
-6. **Writes** `data/secondary.json` + `data/primary.json` for inspection.
-7. **Injects** both JSON payloads into `index.html` between marker comments
-   (`<!-- BEGIN-DATA-SECONDARY -->` ... `<!-- END-DATA-SECONDARY -->`, and
-   the same for `PRIMARY`). The HTML around the markers is untouched.
+5. **Computes** the ranking scores (see *Ranking algorithms* below), including
+   national percentiles and within-LA percentiles for the primary indices.
+6. **Writes** `secondary.json` + `primary.json` into `OUT_DIR`.
 
 Requirements: Python 3 stdlib only. No `pip install` needed.
 
@@ -130,9 +140,10 @@ GRI (Grammar School Readiness)
   = (Higher_LA  × 0.50) + (Reading_LA  × 0.25) + (Maths_LA  × 0.25)
 ```
 
-For 11+, each input is min-max normalised 0–100 **within the LA** instead
-of nationally. LAs with fewer than 3 schools yield no 11+ score (the
-normalisation isn't meaningful at that size).
+For 11+, each input is a **percentile rank 0–100 within the LA** instead of
+nationally — so it measures standing among local peers and, unlike min-max,
+isn't distorted by a single outlier school. A solo-school LA falls back to a
+neutral 50.
 
 Interpretation bands (apply to API / GRI / 11+ identically):
 
@@ -180,7 +191,7 @@ four metric columns specific to the phase.
 | `region`     | One of `manchester`, `london`, `other` — drives the region-tab filter.               |
 | `priv`       | Present and `true` for independent / non-maintained schools (KS4 only).              |
 | `pe, ph, pr, pm` | National percentiles for RWM-expected / RWM-higher / reading SS / maths SS.      |
-| `lh, lr, lm` | Per-LA min-max-normalised values (the 11+ Readiness inputs). `null` for tiny LAs.    |
+| `lh, lr, lm` | Within-LA percentile ranks (the 11+ Readiness inputs). 50 for solo-school LAs.       |
 | `_lc`        | Pre-lowercased name; populated at runtime to make the search filter allocation-free. |
 
 ---

@@ -1,16 +1,24 @@
 #!/usr/bin/env python3
-"""Build data/primary.json and data/secondary.json from DfE England CSVs.
+"""Build per-year secondary.json / primary.json from DfE England CSVs.
 
-Reads:
+Reads (from SRC_DIR):
   england_ks4final.csv  (secondary GCSE)
   england_ks2final.csv  (primary KS2 SATs)
 
-Writes:
-  data/secondary.json
-  data/primary.json
+Writes (to OUT_DIR):
+  secondary.json
+  primary.json
 
-Run from repo root:
-  python3 build_data.py
+Usage:
+  python3 build_data.py [SRC_DIR] [OUT_DIR]
+
+  # 2024-2025 tables (CSVs in repo root) -> data/2024-2025/
+  python3 build_data.py . data/2024-2025
+
+  # 2023-2024 tables -> data/2023-2024/ (OUT_DIR defaults to SRC_DIR's name under data/)
+  python3 build_data.py data/2023-2024
+
+The page (index.html) fetches data/<year>/{secondary,primary}.json at runtime.
 """
 import csv
 import json
@@ -173,8 +181,8 @@ def percentile_ranks(values):
     return pct
 
 
-def build_secondary():
-    src = os.path.join(REPO, "england_ks4final.csv")
+def build_secondary(src_dir):
+    src = os.path.join(src_dir, "england_ks4final.csv")
     rows = []
     with open(src, encoding="utf-8-sig", newline="") as f:
         for row in csv.DictReader(f):
@@ -204,8 +212,8 @@ def build_secondary():
     return rows
 
 
-def build_primary():
-    src = os.path.join(REPO, "england_ks2final.csv")
+def build_primary(src_dir):
+    src = os.path.join(src_dir, "england_ks2final.csv")
     rows = []
     with open(src, encoding="utf-8-sig", newline="") as f:
         for row in csv.DictReader(f):
@@ -241,86 +249,57 @@ def build_primary():
         r["pr"] = round(pr[i], 1)
         r["pm"] = round(pm[i], 1)
 
-    # 11+ Readiness: min-max within each LA on hs, read, maths.
+    # 11+ Readiness: percentile rank within each LA on hs, read, maths.
+    # (Robust to a single outlier school, unlike min-max; solo-school LA -> 50.)
     by_lea = defaultdict(list)
     for i, r in enumerate(rows):
         by_lea[r["lea"]].append(i)
 
     for lea, idxs in by_lea.items():
-        if len(idxs) < 3:
+        if len(idxs) < 2:
             for i in idxs:
-                rows[i]["lh"] = None
-                rows[i]["lr"] = None
-                rows[i]["lm"] = None
+                rows[i]["lh"] = rows[i]["lr"] = rows[i]["lm"] = 50.0
             continue
         for field, key in (("hs", "lh"), ("read", "lr"), ("maths", "lm")):
-            vals = [rows[i][field] for i in idxs]
-            lo, hi = min(vals), max(vals)
-            span = hi - lo
-            for i in idxs:
-                if span == 0:
-                    rows[i][key] = 50.0
-                else:
-                    rows[i][key] = round(100 * (rows[i][field] - lo) / span, 1)
+            pcts = percentile_ranks([rows[i][field] for i in idxs])
+            for k, i in enumerate(idxs):
+                rows[i][key] = round(pcts[k], 1)
     return rows
 
 
-def inject_into_html(sec_json: str, pri_json: str):
-    """Splice the JSON payloads into index.html between marker comments."""
-    html_path = os.path.join(REPO, "index.html")
-    with open(html_path, encoding="utf-8") as f:
-        html = f.read()
-
-    def splice(label: str, payload: str) -> None:
-        nonlocal html
-        begin = f"<!-- BEGIN-DATA-{label} -->"
-        end = f"<!-- END-DATA-{label} -->"
-        block = (
-            f'{begin}\n'
-            f'<script type="application/json" id="data-{label.lower()}">{payload}</script>\n'
-            f'{end}'
-        )
-        bi = html.find(begin)
-        ei = html.find(end)
-        if bi == -1 or ei == -1:
-            raise RuntimeError(f"Markers {begin}/{end} not found in index.html")
-        html = html[:bi] + block + html[ei + len(end):]
-
-    splice("SECONDARY", sec_json)
-    splice("PRIMARY", pri_json)
-
-    with open(html_path, "w", encoding="utf-8") as f:
-        f.write(html)
-
-
 def main():
-    os.makedirs(OUT_DIR, exist_ok=True)
+    # Usage: build_data.py [SRC_DIR] [OUT_DIR]
+    #   SRC_DIR  directory holding england_ks4final.csv / england_ks2final.csv
+    #            (default: repo root, i.e. the 2024-2025 tables)
+    #   OUT_DIR  directory to write secondary.json / primary.json into
+    #            (default: data/<basename of SRC_DIR> or data/ for the root)
+    src_dir = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else REPO
+    if len(sys.argv) > 2:
+        out_dir = os.path.abspath(sys.argv[2])
+    elif src_dir == REPO:
+        out_dir = OUT_DIR
+    else:
+        out_dir = os.path.join(OUT_DIR, os.path.basename(src_dir.rstrip("/")))
+    os.makedirs(out_dir, exist_ok=True)
 
+    print(f"Source CSVs: {src_dir}", file=sys.stderr)
     print("Building secondary…", file=sys.stderr)
-    sec = build_secondary()
+    sec = build_secondary(src_dir)
     print(f"  {len(sec)} secondary schools", file=sys.stderr)
 
     print("Building primary…", file=sys.stderr)
-    pri = build_primary()
+    pri = build_primary(src_dir)
     print(f"  {len(pri)} primary schools", file=sys.stderr)
 
     sec_json = json.dumps(sec, separators=(",", ":"), ensure_ascii=False)
     pri_json = json.dumps(pri, separators=(",", ":"), ensure_ascii=False)
 
-    # Debug artifacts (also useful for diffing data changes between runs).
-    with open(os.path.join(OUT_DIR, "secondary.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(out_dir, "secondary.json"), "w", encoding="utf-8") as f:
         f.write(sec_json)
-    with open(os.path.join(OUT_DIR, "primary.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(out_dir, "primary.json"), "w", encoding="utf-8") as f:
         f.write(pri_json)
 
-    # Inline into the page so it works standalone (no fetch needed).
-    inject_into_html(sec_json, pri_json)
-
-    print(
-        f"Wrote {OUT_DIR}/secondary.json, {OUT_DIR}/primary.json, "
-        f"and injected into index.html",
-        file=sys.stderr,
-    )
+    print(f"Wrote {out_dir}/secondary.json and {out_dir}/primary.json", file=sys.stderr)
 
 
 if __name__ == "__main__":
