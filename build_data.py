@@ -223,7 +223,8 @@ def build_primary(src_dir):
             hs = parse_num(row.get("PTRWM_HIGH"))
             read = parse_num(row.get("READ_AVERAGE"))
             maths = parse_num(row.get("MAT_AVERAGE"))
-            if None in (rwm, hs, read, maths):
+            gps = parse_num(row.get("GPS_AVERAGE"))
+            if None in (rwm, hs, read, maths, gps):
                 continue
             lea = int(row["LEA"])
             rows.append({
@@ -236,6 +237,7 @@ def build_primary(src_dir):
                 "hs": round(hs, 1),
                 "read": round(read, 1),
                 "maths": round(maths, 1),
+                "gps": round(gps, 1),
             })
 
     # National percentiles across the full mainstream set.
@@ -243,13 +245,15 @@ def build_primary(src_dir):
     ph = percentile_ranks([r["hs"] for r in rows])
     pr = percentile_ranks([r["read"] for r in rows])
     pm = percentile_ranks([r["maths"] for r in rows])
+    pg = percentile_ranks([r["gps"] for r in rows])
     for i, r in enumerate(rows):
         r["pe"] = round(pe[i], 1)
         r["ph"] = round(ph[i], 1)
         r["pr"] = round(pr[i], 1)
         r["pm"] = round(pm[i], 1)
+        r["pg"] = round(pg[i], 1)
 
-    # 11+ Readiness: percentile rank within each LA on hs, read, maths.
+    # 11+ Readiness: percentile rank within each LA on hs, read, maths, gps.
     # (Robust to a single outlier school, unlike min-max; solo-school LA -> 50.)
     by_lea = defaultdict(list)
     for i, r in enumerate(rows):
@@ -258,9 +262,9 @@ def build_primary(src_dir):
     for lea, idxs in by_lea.items():
         if len(idxs) < 2:
             for i in idxs:
-                rows[i]["lh"] = rows[i]["lr"] = rows[i]["lm"] = 50.0
+                rows[i]["lh"] = rows[i]["lr"] = rows[i]["lm"] = rows[i]["lg"] = 50.0
             continue
-        for field, key in (("hs", "lh"), ("read", "lr"), ("maths", "lm")):
+        for field, key in (("hs", "lh"), ("read", "lr"), ("maths", "lm"), ("gps", "lg")):
             pcts = percentile_ranks([rows[i][field] for i in idxs])
             for k, i in enumerate(idxs):
                 rows[i][key] = round(pcts[k], 1)

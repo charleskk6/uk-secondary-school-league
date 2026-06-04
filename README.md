@@ -128,16 +128,21 @@ Inputs are **national percentiles** (rank against all ~15,000 England
 primaries, midrank handling for ties): a percentile of 75 means the school
 is ahead of 75% of primaries on that measure.
 
+The five inputs are RWM-expected, RWM-higher, and the reading, maths and
+**GPS (grammar, punctuation & spelling)** scaled scores.
+
 ```
 API (Academic Performance Index — default)
-  = (Expected%ile × 0.40) + (Higher%ile × 0.40)
-  + (Reading%ile × 0.10) + (Maths%ile   × 0.10)
+  = (Expected%ile × 0.35) + (Higher%ile × 0.35)
+  + (Reading%ile × 0.10) + (Maths%ile × 0.10) + (GPS%ile × 0.10)
 
 GRI (Grammar School Readiness)
-  = (Higher%ile  × 0.50) + (Reading%ile × 0.25) + (Maths%ile × 0.25)
+  = (Higher%ile × 0.40)
+  + (Reading%ile × 0.20) + (Maths%ile × 0.20) + (GPS%ile × 0.20)
 
 11+ Readiness (within the school's own Local Authority)
-  = (Higher_LA  × 0.50) + (Reading_LA  × 0.25) + (Maths_LA  × 0.25)
+  = (Higher_LA × 0.40)
+  + (Reading_LA × 0.20) + (Maths_LA × 0.20) + (GPS_LA × 0.20)
 ```
 
 For 11+, each input is a **percentile rank 0–100 within the LA** instead of
@@ -190,8 +195,9 @@ four metric columns specific to the phase.
 | `name`, `area`, `type`, `lea` | School name, borough/town, classification, DfE LEA code (3-digit).  |
 | `region`     | One of `manchester`, `london`, `other` — drives the region-tab filter.               |
 | `priv`       | Present and `true` for independent / non-maintained schools (KS4 only).              |
-| `pe, ph, pr, pm` | National percentiles for RWM-expected / RWM-higher / reading SS / maths SS.      |
-| `lh, lr, lm` | Within-LA percentile ranks (the 11+ Readiness inputs). 50 for solo-school LAs.       |
+| `rwm, hs, read, maths, gps` | Raw KS2: RWM-expected %, RWM-higher %, reading / maths / GPS scaled scores. |
+| `pe, ph, pr, pm, pg` | National percentiles for RWM-expected / RWM-higher / reading / maths / GPS. |
+| `lh, lr, lm, lg` | Within-LA percentile ranks (the 11+ Readiness inputs). 50 for solo-school LAs.   |
 | `_lc`        | Pre-lowercased name; populated at runtime to make the search filter allocation-free. |
 
 ---
