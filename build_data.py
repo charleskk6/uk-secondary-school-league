@@ -271,19 +271,49 @@ def build_primary(src_dir):
     return rows
 
 
-def main():
-    # Usage: build_data.py [SRC_DIR] [OUT_DIR]
-    #   SRC_DIR  directory holding england_ks4final.csv / england_ks2final.csv
-    #            (default: repo root, i.e. the 2024-2025 tables)
-    #   OUT_DIR  directory to write secondary.json / primary.json into
-    #            (default: data/<basename of SRC_DIR> or data/ for the root)
-    src_dir = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else REPO
-    if len(sys.argv) > 2:
-        out_dir = os.path.abspath(sys.argv[2])
-    elif src_dir == REPO:
-        out_dir = OUT_DIR
-    else:
-        out_dir = os.path.join(OUT_DIR, os.path.basename(src_dir.rstrip("/")))
+def inject_inline():
+    """Splice every data/<year>/{secondary,primary}.json into index.html
+    between matching marker comments, so the page can be opened directly
+    from disk (file://) without needing a server."""
+    html_path = os.path.join(REPO, "index.html")
+    with open(html_path, encoding="utf-8") as f:
+        html = f.read()
+
+    injected = 0
+    for entry in sorted(os.listdir(OUT_DIR)):
+        year_dir = os.path.join(OUT_DIR, entry)
+        if not os.path.isdir(year_dir):
+            continue
+        # Expect a YYYY-YYYY style directory.
+        for phase in ("secondary", "primary"):
+            payload_path = os.path.join(year_dir, f"{phase}.json")
+            if not os.path.isfile(payload_path):
+                continue
+            with open(payload_path, encoding="utf-8") as pf:
+                payload = pf.read().strip()
+            label = f"{entry}-{phase}".upper()
+            begin = f"<!-- BEGIN-DATA-{label} -->"
+            end = f"<!-- END-DATA-{label} -->"
+            bi = html.find(begin)
+            ei = html.find(end)
+            if bi == -1 or ei == -1:
+                print(f"  skip {label}: markers not found in index.html", file=sys.stderr)
+                continue
+            block = (
+                f'{begin}\n'
+                f'<script type="application/json" id="data-{entry}-{phase}">{payload}</script>\n'
+                f'{end}'
+            )
+            html = html[:bi] + block + html[ei + len(end):]
+            injected += 1
+            print(f"  injected {label} ({len(payload):,} bytes)", file=sys.stderr)
+
+    with open(html_path, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"Updated index.html with {injected} inline data block(s)", file=sys.stderr)
+
+
+def build(src_dir, out_dir):
     os.makedirs(out_dir, exist_ok=True)
 
     print(f"Source CSVs: {src_dir}", file=sys.stderr)
@@ -304,6 +334,26 @@ def main():
         f.write(pri_json)
 
     print(f"Wrote {out_dir}/secondary.json and {out_dir}/primary.json", file=sys.stderr)
+
+
+def main():
+    # Modes:
+    #   build_data.py inject              re-inject existing JSON into index.html
+    #   build_data.py [SRC_DIR] [OUT_DIR] build a year, then auto-inject all years
+    if len(sys.argv) > 1 and sys.argv[1] == "inject":
+        inject_inline()
+        return
+
+    src_dir = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else REPO
+    if len(sys.argv) > 2:
+        out_dir = os.path.abspath(sys.argv[2])
+    elif src_dir == REPO:
+        out_dir = OUT_DIR
+    else:
+        out_dir = os.path.join(OUT_DIR, os.path.basename(src_dir.rstrip("/")))
+
+    build(src_dir, out_dir)
+    inject_inline()
 
 
 if __name__ == "__main__":
