@@ -584,7 +584,7 @@ td, thead th { padding: 10px 8px; }
   <span class="var">11+</span> <span class="op">=</span> <span class="op">(</span><span class="var">Higher<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.50</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Reading<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.25</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Maths<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.25</span><span class="op">)</span>
 
 <span class="label">%ile</span> <span class="op">=</span> national percentile rank vs all <span class="num">15,233</span> England KS2 schools <span class="op">(</span><span class="num">0</span>–<span class="num">100</span><span class="op">)</span>
-<span class="label">x<sub>LA</sub></span>  <span class="op">=</span> min-max normalised within the school's own local authority <span class="op">(</span><span class="num">0</span>–<span class="num">100</span><span class="op">)</span>
+<span class="label">x<sub>LA</sub></span>  <span class="op">=</span> percentile rank within the school's own local authority <span class="op">(</span><span class="num">0</span>–<span class="num">100</span><span class="op">)</span>
 </div>
 
 <div class="weight-grid">
@@ -642,7 +642,7 @@ td, thead th { padding: 10px 8px; }
 
   <div class="normalise-card pri-only">
     <h3>Reading the primary indices</h3>
-    <p>Primary indices are scored on a <strong style="color:#e2e8f0">0–100</strong> scale. For API and Grammar Readiness, each input is a <strong>national percentile</strong> — a score of 75 means the school is ahead of 75% of all England primaries on that measure. The England average works out at <strong style="color:#e2e8f0">≈49</strong>. (11+ Readiness instead ranks each school 0–100 <em>within its own local authority</em>.)</p>
+    <p>Primary indices are scored on a <strong style="color:#e2e8f0">0–100</strong> scale. For API and Grammar Readiness, each input is a <strong>national percentile</strong> — a score of 75 means the school is ahead of 75% of all England primaries on that measure. The England average works out at <strong style="color:#e2e8f0">≈49</strong>. (11+ Readiness uses the same idea but as a <em>local</em> percentile — ranking each school against the others in its own local authority, so it answers "how does this school compare to its neighbours?" and isn't thrown off by a single outlier school.)</p>
     <div class="interpret-grid">
       <div class="interpret-item" style="background:#14281d;border:1px solid #166534">
         <span class="badge" style="color:#4ade80">80 +</span>
@@ -773,7 +773,7 @@ td, thead th { padding: 10px 8px; }
     <strong>📌 Data Notes &amp; Caveats</strong>
     <ul>
       <li>Use the <strong>Secondary / Primary toggle</strong> to switch phase. Secondary schools are ranked by <strong>SQS</strong> from 2024/25 GCSE data; primary schools by one of three <strong>percentile indices</strong> from 2024/25 KS2 SATs data, chosen from the "Rank by" selector. The <strong>region tabs</strong> and <strong>type checkboxes</strong> apply to whichever phase is active.</li>
-      <li><strong>Secondary (SQS)</strong> uses Attainment 8, Grade 5+ English &amp; Maths, EBacc APS and EBacc Entry, each normalised against the England average (100 = average). <strong>Primary</strong> offers the <strong>Academic Performance Index</strong> (40% expected / 40% higher / 10% reading / 10% maths), <strong>Grammar School Readiness</strong> (50% higher / 25% reading / 25% maths) and <strong>11+ Readiness</strong> (the same blend normalised within each local authority). Each input is a national percentile (0–100) computed against all 15,233 England KS2 schools, so the indices are not double-counting the reading/maths signal on different scales.</li>
+      <li><strong>Secondary (SQS)</strong> uses Attainment 8, Grade 5+ English &amp; Maths, EBacc APS and EBacc Entry, each normalised against the England average (100 = average). <strong>Primary</strong> offers the <strong>Academic Performance Index</strong> (40% expected / 40% higher / 10% reading / 10% maths), <strong>Grammar School Readiness</strong> (50% higher / 25% reading / 25% maths) and <strong>11+ Readiness</strong> (the same 50/25/25 blend, but ranked as a <em>local</em> percentile within each school's own local authority). For API and Grammar Readiness each input is a national percentile (0–100) computed against the full England KS2 dataset; 11+ Readiness instead percentile-ranks each school against the others in its local authority. Using percentiles throughout keeps the reading/maths signal from being double-counted on mismatched scales, and the local percentile is robust to a single outlier school.</li>
       <li><strong>Progress measures are unavailable for 2025/26</strong> at both key stages — COVID-19 disrupted the 2020/21 baseline assessments — so both formulas use attainment only. They are expected to return in 2027.</li>
       <li>Many figures (especially EBacc entry, and all <strong>independent / prep school</strong> values) are <strong>approximate / illustrative</strong> where exact 2025 published data was not available; independents largely sit IGCSEs/internal assessments outside DfE reporting. Treat rankings as indicative.</li>
       <li>The England benchmark row shows 100 for all normalised metrics by definition and appears at the foot of <em>every</em> table.</li>
@@ -830,7 +830,7 @@ function sqs(s) {
 // Primary ranking indices — all percentile-based, scored 0–100.
 //  pe/ph/pr/pm = national percentile (vs every England KS2 school) for
 //  RWM-expected / RWM-higher / reading SS / maths SS.
-//  lh/lr/lm   = each school's higher/reading/maths min-max normalised within its own LA.
+//  lh/lr/lm   = each school's higher/reading/maths percentile rank within its own LA (solo-school LA -> 50).
 const PRI_INDICES = {
   api:        { label:"Academic Performance Index", short:"API", desc:"Overall attainment vs all England primaries",
                 fn: s => 0.40*s.pe + 0.40*s.ph + 0.10*s.pr + 0.10*s.pm },
