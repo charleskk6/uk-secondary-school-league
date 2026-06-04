@@ -128,21 +128,21 @@ Inputs are **national percentiles** (rank against all ~15,000 England
 primaries, midrank handling for ties): a percentile of 75 means the school
 is ahead of 75% of primaries on that measure.
 
-The five inputs are RWM-expected, RWM-higher, and the reading, maths and
-**GPS (grammar, punctuation & spelling)** scaled scores.
+Inputs are RWM-expected, RWM-higher, **English** and maths. Because reading
+and **GPS (grammar, punctuation & spelling)** are both English-domain, their
+percentiles are averaged into one `English%ile = (Reading%ile + GPS%ile) / 2`,
+kept balanced 1:1 with maths.
 
 ```
 API (Academic Performance Index — default)
-  = (Expected%ile × 0.35) + (Higher%ile × 0.35)
-  + (Reading%ile × 0.10) + (Maths%ile × 0.10) + (GPS%ile × 0.10)
+  = (Expected%ile × 0.40) + (Higher%ile × 0.40)
+  + (English%ile × 0.10) + (Maths%ile × 0.10)
 
 GRI (Grammar School Readiness)
-  = (Higher%ile × 0.40)
-  + (Reading%ile × 0.20) + (Maths%ile × 0.20) + (GPS%ile × 0.20)
+  = (Higher%ile × 0.50) + (English%ile × 0.25) + (Maths%ile × 0.25)
 
 11+ Readiness (within the school's own Local Authority)
-  = (Higher_LA × 0.40)
-  + (Reading_LA × 0.20) + (Maths_LA × 0.20) + (GPS_LA × 0.20)
+  = (Higher_LA × 0.50) + (English_LA × 0.25) + (Maths_LA × 0.25)
 ```
 
 For 11+, each input is a **percentile rank 0–100 within the LA** instead of

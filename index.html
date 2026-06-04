@@ -575,14 +575,15 @@ td, thead th { padding: 10px 8px; }
     <h3>Primary Ranking Indices — choose one above the table</h3>
     <div class="formula-block">
 <span class="label">Academic Performance Index — default</span>
-  <span class="var">API</span> <span class="op">=</span> <span class="op">(</span><span class="var">Expected%ile</span> <span class="op">×</span> <span class="num">0.35</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Higher%ile</span> <span class="op">×</span> <span class="num">0.35</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Reading%ile</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Maths%ile</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">GPS%ile</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span>
+  <span class="var">API</span> <span class="op">=</span> <span class="op">(</span><span class="var">Expected%ile</span> <span class="op">×</span> <span class="num">0.40</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Higher%ile</span> <span class="op">×</span> <span class="num">0.40</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">English%ile</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Maths%ile</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span>
 
 <span class="label">Grammar School Readiness</span>
-  <span class="var">GRI</span> <span class="op">=</span> <span class="op">(</span><span class="var">Higher%ile</span> <span class="op">×</span> <span class="num">0.40</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Reading%ile</span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Maths%ile</span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">GPS%ile</span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span>
+  <span class="var">GRI</span> <span class="op">=</span> <span class="op">(</span><span class="var">Higher%ile</span> <span class="op">×</span> <span class="num">0.50</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">English%ile</span> <span class="op">×</span> <span class="num">0.25</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Maths%ile</span> <span class="op">×</span> <span class="num">0.25</span><span class="op">)</span>
 
 <span class="label">11+ Readiness — within the school's own Local Authority</span>
-  <span class="var">11+</span> <span class="op">=</span> <span class="op">(</span><span class="var">Higher<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.40</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Reading<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Maths<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">GPS<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.20</span><span class="op">)</span>
+  <span class="var">11+</span> <span class="op">=</span> <span class="op">(</span><span class="var">Higher<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.50</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">English<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.25</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">Maths<sub>LA</sub></span> <span class="op">×</span> <span class="num">0.25</span><span class="op">)</span>
 
+<span class="label">English%ile</span> <span class="op">=</span> average of the <span class="var">Reading</span> and <span class="var">GPS</span> percentiles <span class="op">(</span>both English-domain, kept 1:1 with maths<span class="op">)</span>
 <span class="label">%ile</span> <span class="op">=</span> national percentile rank vs all <span class="num">~15,000</span> England KS2 schools <span class="op">(</span><span class="num">0</span>–<span class="num">100</span><span class="op">)</span>
 <span class="label">x<sub>LA</sub></span>  <span class="op">=</span> percentile rank within the school's own local authority <span class="op">(</span><span class="num">0</span>–<span class="num">100</span><span class="op">)</span>
 <span class="label">GPS</span>  <span class="op">=</span> Grammar, Punctuation &amp; Spelling scaled score
@@ -590,29 +591,24 @@ td, thead th { padding: 10px 8px; }
 
 <div class="weight-grid">
   <div class="weight-item">
-    <div class="pct">35%</div>
+    <div class="pct">40%</div>
     <div class="wlabel">RWM Expected (percentile)</div>
     <div class="wdesc">National rank for % reaching the expected standard in reading, writing &amp; maths combined — breadth incl. writing</div>
   </div>
   <div class="weight-item">
-    <div class="pct">35%</div>
+    <div class="pct">40%</div>
     <div class="wlabel">RWM Higher (percentile)</div>
     <div class="wdesc">National rank for % working at greater depth across all three — stretch for the most able pupils</div>
   </div>
   <div class="weight-item">
     <div class="pct">10%</div>
-    <div class="wlabel">Reading SS (percentile)</div>
-    <div class="wdesc">National rank for the average KS2 reading scaled score — depth in literacy</div>
+    <div class="wlabel">English (percentile)</div>
+    <div class="wdesc">Average of the reading and grammar-punctuation-spelling (GPS) scaled-score ranks — combined literacy depth</div>
   </div>
   <div class="weight-item">
     <div class="pct">10%</div>
     <div class="wlabel">Maths SS (percentile)</div>
     <div class="wdesc">National rank for the average KS2 maths scaled score — depth in numeracy</div>
-  </div>
-  <div class="weight-item">
-    <div class="pct">10%</div>
-    <div class="wlabel">GPS SS (percentile)</div>
-    <div class="wdesc">National rank for the average KS2 grammar, punctuation &amp; spelling scaled score</div>
   </div>
 </div>
 
@@ -706,16 +702,15 @@ td, thead th { padding: 10px 8px; }
 <span class="label">Step 1 — Convert each to a national percentile:</span>
   Expected <span class="op">=</span> <span class="var">70.8</span>   <span class="op">(</span>ahead of 71% of England primaries<span class="op">)</span>
   Higher   <span class="op">=</span> <span class="var">77.7</span>
-  Reading  <span class="op">=</span> <span class="var">80.2</span>
+  Reading  <span class="op">=</span> <span class="var">80.2</span>  <span class="op">,</span>  GPS <span class="op">=</span> <span class="var">87.8</span>  <span class="op">→</span>  English <span class="op">=</span> <span class="var">84.0</span>
   Maths    <span class="op">=</span> <span class="var">87.3</span>
-  GPS      <span class="op">=</span> <span class="var">87.8</span>
 
 <span class="label">Step 2 — Apply Academic Performance Index weights:</span>
-<span class="op">(</span><span class="var">70.8</span> <span class="op">×</span> <span class="num">0.35</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">77.7</span> <span class="op">×</span> <span class="num">0.35</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">80.2</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">87.3</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">87.8</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span>
-<span class="op">=</span> <span class="num">24.8</span> <span class="op">+</span> <span class="num">27.2</span> <span class="op">+</span> <span class="num">8.0</span> <span class="op">+</span> <span class="num">8.7</span> <span class="op">+</span> <span class="num">8.8</span>
-<span class="label">= API 77.5</span>
+<span class="op">(</span><span class="var">70.8</span> <span class="op">×</span> <span class="num">0.40</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">77.7</span> <span class="op">×</span> <span class="num">0.40</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">84.0</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="var">87.3</span> <span class="op">×</span> <span class="num">0.10</span><span class="op">)</span>
+<span class="op">=</span> <span class="num">28.3</span> <span class="op">+</span> <span class="num">31.1</span> <span class="op">+</span> <span class="num">8.4</span> <span class="op">+</span> <span class="num">8.7</span>
+<span class="label">= API 76.5</span>
 </div>
-<p style="font-size:13px;color:var(--muted)">An API of 77.5 places Navigation Primary in roughly the <strong style="color:#e2e8f0">top quarter of primary schools nationally</strong>, on a 0–100 scale where the England average sits at <strong style="color:#e2e8f0">49.2</strong>.</p>
+<p style="font-size:13px;color:var(--muted)">An API of 76.5 places Navigation Primary in roughly the <strong style="color:#e2e8f0">top quarter of primary schools nationally</strong>, on a 0–100 scale where the England average sits at <strong style="color:#e2e8f0">49.4</strong>.</p>
 
   </div>
   </div><!-- /pri-only -->
@@ -789,7 +784,7 @@ td, thead th { padding: 10px 8px; }
     <strong>📌 Data Notes &amp; Caveats</strong>
     <ul>
       <li>Use the <strong>Academic year</strong> dropdown to switch between published years (currently <strong>2024/25</strong> and <strong>2023/24</strong>) — the whole table reloads for that year. Use the <strong>Secondary / Primary toggle</strong> to switch phase: secondary schools are ranked by <strong>SQS</strong> from GCSE data; primary schools by one of three <strong>percentile indices</strong> from KS2 SATs data, chosen from the "Rank by" selector. The <strong>region tabs</strong> and <strong>type checkboxes</strong> apply to whichever phase is active.</li>
-      <li><strong>Secondary (SQS)</strong> uses Attainment 8, Grade 5+ English &amp; Maths, EBacc APS and EBacc Entry, each normalised against the England average (100 = average). <strong>Primary</strong> blends five KS2 measures — RWM expected, RWM higher, and the reading, maths <strong>and grammar-punctuation-spelling (GPS)</strong> scaled scores — offering the <strong>Academic Performance Index</strong> (35% expected / 35% higher / 10% reading / 10% maths / 10% GPS), <strong>Grammar School Readiness</strong> (40% higher / 20% reading / 20% maths / 20% GPS) and <strong>11+ Readiness</strong> (the same 40/20/20/20 blend, but ranked as a <em>local</em> percentile within each school's own local authority). For API and Grammar Readiness each input is a national percentile (0–100) computed against the full England KS2 dataset; 11+ Readiness instead percentile-ranks each school against the others in its local authority. Using percentiles throughout keeps the scaled-score signals from being double-counted on mismatched scales, and the local percentile is robust to a single outlier school.</li>
+      <li><strong>Secondary (SQS)</strong> uses Attainment 8, Grade 5+ English &amp; Maths, EBacc APS and EBacc Entry, each normalised against the England average (100 = average). <strong>Primary</strong> uses RWM expected, RWM higher, and an <strong>English</strong> scaled score (the reading and <strong>grammar-punctuation-spelling, GPS</strong>, ranks averaged, since both are English-domain) balanced 1:1 with the maths scaled score. It offers the <strong>Academic Performance Index</strong> (40% expected / 40% higher / 10% English / 10% maths), <strong>Grammar School Readiness</strong> (50% higher / 25% English / 25% maths) and <strong>11+ Readiness</strong> (the same 50/25/25 blend, but ranked as a <em>local</em> percentile within each school's own local authority). For API and Grammar Readiness each input is a national percentile (0–100) computed against the full England KS2 dataset; 11+ Readiness instead percentile-ranks each school against the others in its local authority. Using percentiles throughout keeps the scaled-score signals from being double-counted on mismatched scales, and the local percentile is robust to a single outlier school.</li>
       <li><strong>Progress measures are unavailable for 2025/26</strong> at both key stages — COVID-19 disrupted the 2020/21 baseline assessments — so both formulas use attainment only. They are expected to return in 2027.</li>
       <li>Many figures (especially EBacc entry, and all <strong>independent / prep school</strong> values) are <strong>approximate / illustrative</strong> where exact 2025 published data was not available; independents largely sit IGCSEs/internal assessments outside DfE reporting. Treat rankings as indicative.</li>
       <li>The <strong>England Average</strong> row appears at the foot of every table. For secondary it sits at SQS 100 (the national average by definition); for primary it shows the England-average school's position on the 0–100 percentile scale (≈49 for the API).</li>
@@ -843,13 +838,17 @@ function sqs(s) {
 //  pe/ph/pr/pm/pg = national percentile (vs every England KS2 school) for RWM-expected /
 //                   RWM-higher / reading SS / maths SS / grammar-punctuation-spelling SS.
 //  lh/lr/lm/lg    = higher/reading/maths/GPS percentile rank within the school's own LA (solo-LA -> 50).
+// Reading and GPS are both English-domain, so they're averaged into a single
+// "English" percentile that stays balanced 1:1 with maths.
+const eng   = s => (s.pr + s.pg) / 2;   // national English percentile
+const engLA = s => (s.lr + s.lg) / 2;   // within-LA English percentile
 const PRI_INDICES = {
   api:        { label:"Academic Performance Index", short:"API", desc:"Overall attainment vs all England primaries",
-                fn: s => 0.35*s.pe + 0.35*s.ph + 0.10*s.pr + 0.10*s.pm + 0.10*s.pg },
+                fn: s => 0.40*s.pe + 0.40*s.ph + 0.10*eng(s) + 0.10*s.pm },
   grammar:    { label:"Grammar School Readiness",   short:"GRI", desc:"Stretch at the top end (higher-standard led)",
-                fn: s => 0.40*s.ph + 0.20*s.pr + 0.20*s.pm + 0.20*s.pg },
+                fn: s => 0.50*s.ph + 0.25*eng(s) + 0.25*s.pm },
   elevenplus: { label:"11+ Readiness (vs LA)",      short:"11+", desc:"Standing within the school's own local authority",
-                fn: s => 0.40*s.lh + 0.20*s.lr + 0.20*s.lm + 0.20*s.lg },
+                fn: s => 0.50*s.lh + 0.25*engLA(s) + 0.25*s.lm },
 };
 let currentPriIndex = 'api';
 function pqs(s) { return PRI_INDICES[currentPriIndex].fn(s).toFixed(1); }
